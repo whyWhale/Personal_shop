@@ -23,15 +23,16 @@ public class MemberRepositoryTest {
     @Rollback(value = false)
     public void memberSave() throws Exception {
         //given
-        Member admin = Member.builder().username("admin").build();
+        Member admin = new Member();
+        admin.setName("admin");
         //when
-        Member save = memberRepository.save(admin);
+        Long saveId = memberRepository.save(admin);
         //then
-        Optional<Member> byId = memberRepository.findById(save.getId());
-        byId.ifPresent(member -> {
-            Assertions.assertThat(member.getId()).isEqualTo(save.getId());
-            Assertions.assertThat(member).isEqualTo(save);
-            // 같은 영속성 컨텍스트에 있으므로 추가적으로 1차캐시 이미 있기때문에 select 쿼리도 안나간다.
-        });
+        Member findMember = memberRepository.findById(saveId);
+
+        // 같은 영속성 컨텍스트에 있으므로 추가적으로 1차캐시 이미 있기때문에 select 쿼리도 안나간다.
+        Assertions.assertThat(saveId).isEqualTo(findMember.getId());
+        Assertions.assertThat(admin.getName()).isEqualTo(findMember.getName());
+        Assertions.assertThat(admin).isEqualTo(findMember);
     }
 }
