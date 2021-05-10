@@ -1,6 +1,6 @@
 # Shop  
 
-Stack : SpringBoot, JPA
+Stack : SpringBoot, JPA,  Thymeleaf
 <br>
 
 `도메인 설계`
