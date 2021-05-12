@@ -21,7 +21,9 @@ Stack : SpringBoot, JPA,  Thymeleaf
 - 등록
 - 수정
 - 조회
+- 재고 증가,감소 
 - ※ (상속) singleTable 전략으로 설정.
+
 
 `주문 기능`
 - 주문
