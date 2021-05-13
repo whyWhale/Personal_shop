@@ -4,9 +4,7 @@ import jpa.jpa_shop.domain.MiddleTable.OrderItem;
 import jpa.jpa_shop.domain.delivery.Delivery;
 import jpa.jpa_shop.domain.delivery.DeliveryStatus;
 import jpa.jpa_shop.domain.member.Member;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import net.bytebuddy.implementation.bytecode.Throw;
 
 import javax.persistence.*;
@@ -14,8 +12,8 @@ import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
-@Setter
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "orders")
 @Entity
 public class Order {
@@ -31,6 +29,7 @@ public class Order {
 
     //======= 관게 매핑 =========
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")
     private Member member;
@@ -42,6 +41,11 @@ public class Order {
     @JoinColumn(name="delivery_id")
     private Delivery delivery;
 
+    @Builder
+    public Order(LocalDateTime orderDate, OrderStatus status) {
+        this.orderDate = orderDate;
+        this.status = status;
+    }
 
     public void setMember(Member member)
     {
@@ -61,16 +65,21 @@ public class Order {
         delivery.setOrder(this);
     }
 
-    public static Order createOrder(Member member,Delivery delivery,OrderItem... orderItems)
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
+
+    public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems)
     {
-        Order order=new Order();
+        Order order=Order.builder()
+                .status(OrderStatus.ORDER)
+                .orderDate(LocalDateTime.now())
+                .build();
         order.setMember(member);
         order.setDelivery(delivery);
         for (OrderItem orderItem : orderItems) {
             order.addOrderItems(orderItem);
         }
-        order.setStatus(OrderStatus.ORDER);
-        order.setOrderDate(LocalDateTime.now());
         return order;
     }
 

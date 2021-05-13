@@ -2,14 +2,13 @@ package jpa.jpa_shop.domain.MiddleTable;
 
 import jpa.jpa_shop.domain.item.Item;
 import jpa.jpa_shop.domain.orders.Order;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "order_item")
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class OrderItem {
     @Id
@@ -29,12 +28,28 @@ public class OrderItem {
     private int orderPrice;
     private int count;
 
-    public static OrderItem createOrderItem(Item item,int orderPrice,int count)
+    @Builder
+    public OrderItem(int orderPrice, int count) {
+        this.orderPrice = orderPrice;
+        this.count = count;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public static OrderItem createOrderItem(Item item, int orderPrice, int count)
     {
         OrderItem orderItem=new OrderItem();
         orderItem.setItem(item);
-        orderItem.setOrderPrice(orderPrice);
-        orderItem.setCount(count);
+        OrderItem.builder()
+                .orderPrice(orderPrice)
+                .count(count)
+                .build();
         item.removeStock(count);
         return orderItem;
     }
