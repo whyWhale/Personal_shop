@@ -26,7 +26,7 @@ Stack : SpringBoot, JPA,  Thymeleaf
 
 
 `주문 기능`
-- 주문
+- 주문 생성
 - 주문 내역 조회
 - 주문 취소
 
