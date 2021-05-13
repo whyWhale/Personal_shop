@@ -28,6 +28,6 @@ public class ItemService implements ItemServiceIFS {
 
     @Override
     public Item findById(Long itemId) {
-        return itemRepository.find(itemId);
+        return itemRepository.findById(itemId);
     }
 }
