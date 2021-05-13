@@ -2,10 +2,12 @@ package jpa.jpa_shop.domain.orders;
 
 import jpa.jpa_shop.domain.MiddleTable.OrderItem;
 import jpa.jpa_shop.domain.delivery.Delivery;
+import jpa.jpa_shop.domain.delivery.DeliveryStatus;
 import jpa.jpa_shop.domain.member.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import net.bytebuddy.implementation.bytecode.Throw;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -47,7 +49,7 @@ public class Order {
         member.getOrders().add(this);
     }
 
-    public void setOrderItems(OrderItem orderItem)
+    public void addOrderItems(OrderItem orderItem)
     {
         orderItems.add(orderItem);
         orderItem.setOrder(this);
@@ -57,6 +59,37 @@ public class Order {
     {
         this.delivery=delivery;
         delivery.setOrder(this);
+    }
+
+    public static Order createOrder(Member member,Delivery delivery,OrderItem... orderItems)
+    {
+        Order order=new Order();
+        order.setMember(member);
+        order.setDelivery(delivery);
+        for (OrderItem orderItem : orderItems) {
+            order.addOrderItems(orderItem);
+        }
+        order.setStatus(OrderStatus.ORDER);
+        order.setOrderDate(LocalDateTime.now());
+        return order;
+    }
+
+    // Business Logic
+    public void cancel()
+    {
+        if(delivery.getStatus()== DeliveryStatus.COMPLETE)
+        {
+            throw new IllegalStateException("배송이 완료된 상품은 취소가 불가능합니다.");
+        }
+        this.setStatus(OrderStatus.CANCEL);
+        for (OrderItem orderItem : orderItems) {
+            orderItem.cancel();
+        }
+    }
+
+    public int getTotalPrice()
+    {
+        return orderItems.stream().mapToInt(OrderItem::getTotalPrice).sum();
     }
 
 
