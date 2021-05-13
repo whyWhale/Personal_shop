@@ -44,12 +44,11 @@ public class OrderItem {
 
     public static OrderItem createOrderItem(Item item, int orderPrice, int count)
     {
-        OrderItem orderItem=new OrderItem();
-        orderItem.setItem(item);
-        OrderItem.builder()
+        OrderItem orderItem= OrderItem.builder()
                 .orderPrice(orderPrice)
                 .count(count)
                 .build();
+        orderItem.setItem(item);
         item.removeStock(count);
         return orderItem;
     }
