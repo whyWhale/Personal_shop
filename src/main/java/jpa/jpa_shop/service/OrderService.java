@@ -9,10 +9,14 @@ import jpa.jpa_shop.domain.member.Member;
 import jpa.jpa_shop.domain.member.Repository.MemberRepository;
 import jpa.jpa_shop.domain.orders.Order;
 import jpa.jpa_shop.domain.orders.Repository.OrderRepository;
+import jpa.jpa_shop.dto.request.OrderSearchRequestDto;
 import jpa.jpa_shop.service.IFS.OrderServiceIFS;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -45,4 +49,11 @@ public class OrderService implements OrderServiceIFS {
         Order order=orderRepository.findById(orderId);
         order.cancel();
     }
+
+    @Override
+    public List<Order> SearchMemberNameAndOrderStatus(OrderSearchRequestDto requestDto) {
+        return orderRepository.findAll(requestDto);
+    }
+
+
 }
