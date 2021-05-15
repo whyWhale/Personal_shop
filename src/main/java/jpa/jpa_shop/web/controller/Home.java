@@ -1,15 +1,15 @@
-package jpa.jpa_shop.controller;
+package jpa.jpa_shop.web.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class Hello {
+@Slf4j
+public class Home {
     @GetMapping("")
-    public String main(Model model)
+    public String main()
     {
-        model.addAttribute("data","WhyWhale");
         return "index";
     }
 }
