@@ -1,11 +1,8 @@
-package jpa.jpa_shop.dto.request;
+package jpa.jpa_shop.web.controller.dto.request;
 
 import jpa.jpa_shop.domain.orders.OrderStatus;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-
-import javax.persistence.criteria.Predicate;
 
 @Getter
 public class OrderSearchRequestDto {

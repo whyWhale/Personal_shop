@@ -9,7 +9,7 @@ import jpa.jpa_shop.domain.member.Member;
 import jpa.jpa_shop.domain.member.Repository.MemberRepository;
 import jpa.jpa_shop.domain.orders.Order;
 import jpa.jpa_shop.domain.orders.Repository.OrderRepository;
-import jpa.jpa_shop.dto.request.OrderSearchRequestDto;
+import jpa.jpa_shop.web.controller.dto.request.OrderSearchRequestDto;
 import jpa.jpa_shop.service.IFS.OrderServiceIFS;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
