@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/header :: header">
+    <title>STOCK MANAGEMENT SYSTEM</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div class="container">
+    <div th:replace="layout/navbar :: bodyHeader"/>
+    <div class="jumbotron">
+        <h1>Stock Management System</h1>
+        <p class="lead">상품 등록</p>
+        <p>
+            <a class="btn btn-lg btn-info" href="/item/createBook">도서 등록</a>
+            <a class="btn btn-lg btn-info" href="/item/createAlbum">앨범 등록</a>
+            <a class="btn btn-lg btn-info" href="/item/createMovie">DVD 등록</a>
+        </p>
+    </div>
+    <div th:replace="layout/footer :: footer"/>
+</div> <!-- /container -->
+</body>
+</html>
