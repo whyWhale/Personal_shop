@@ -1,13 +1,11 @@
-package jpa.jpa_shop.dto.request;
+package jpa.jpa_shop.web.controller.dto.request;
 
 import jpa.jpa_shop.domain.member.Address;
 import jpa.jpa_shop.domain.member.Member;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
 
-@ToString
 @Data
 public class MemberSaveRequestDto {
     @NotEmpty(message = "이름은 필수 입니다.")
