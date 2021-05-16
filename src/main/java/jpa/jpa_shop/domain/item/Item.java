@@ -2,8 +2,6 @@ package jpa.jpa_shop.domain.item;
 
 import jpa.jpa_shop.domain.category.Category;
 import jpa.jpa_shop.exception.NotEnoughStockException;
-import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
