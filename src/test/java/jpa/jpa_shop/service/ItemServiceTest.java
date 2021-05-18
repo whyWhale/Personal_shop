@@ -83,7 +83,6 @@ public class ItemServiceTest {
         itemService.saveItem(book);
         itemService.saveItem(album);
         List<Item> items = itemService.findItems();
-        System.out.println(items);
         //then
         Assertions.assertThat(items).isNotNull();
         Assertions.assertThat(items.size()).isEqualTo(3);
