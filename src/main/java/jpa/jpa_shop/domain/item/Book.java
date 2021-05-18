@@ -1,11 +1,10 @@
 package jpa.jpa_shop.domain.item;
 
+import jpa.jpa_shop.web.controller.dto.response.BookUpdateResponseDto;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -23,5 +22,18 @@ public class Book extends Item{
         super(name, price, stockQuantity);
         this.author = author;
         this.isbn = isbn;
+    }
+
+
+    public BookUpdateResponseDto toEntity()
+    {
+        return BookUpdateResponseDto.builder()
+                .id(getId())
+                .name(getName())
+                .price(getPrice())
+                .stockQuantity(getStockQuantity())
+                .author(author)
+                .isbn(isbn)
+                .build();
     }
 }
