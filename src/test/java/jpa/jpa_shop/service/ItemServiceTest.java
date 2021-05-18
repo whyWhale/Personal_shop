@@ -2,9 +2,9 @@ package jpa.jpa_shop.service;
 
 import jpa.jpa_shop.domain.item.Album;
 import jpa.jpa_shop.domain.item.Book;
-import jpa.jpa_shop.domain.item.Item;
 import jpa.jpa_shop.domain.item.Movie;
 import jpa.jpa_shop.service.IFS.ItemServiceIFS;
+import jpa.jpa_shop.web.controller.dto.response.ItemListResponseDto;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -82,7 +82,7 @@ public class ItemServiceTest {
         itemService.saveItem(movie);
         itemService.saveItem(book);
         itemService.saveItem(album);
-        List<Item> items = itemService.findItems();
+        List<ItemListResponseDto> items = itemService.findItems();
         //then
         Assertions.assertThat(items).isNotNull();
         Assertions.assertThat(items.size()).isEqualTo(3);
