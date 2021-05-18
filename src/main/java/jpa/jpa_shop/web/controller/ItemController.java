@@ -41,21 +41,21 @@ public class ItemController {
     public String CreateBook(Model model)
     {
         model.addAttribute("bookSaveRequestDto", new BookSaveRequestDto());
-        return "item/createBook";
+        return "item/create/createBook";
     }
 
     @GetMapping("/createAlbum")
     public String CreateAlbum(Model model)
     {
         model.addAttribute("albumSaveRequestDto", new AlbumSaveRequestDto());
-        return "item/createAlbum";
+        return "item/create/createAlbum";
     }
 
     @GetMapping("/createMovie")
     public String CreateMovie(Model model)
     {
         model.addAttribute("movieSaveRequestDto", new MovieSaveRequestDto());
-        return "item/createMovie";
+        return "item/create/createMovie";
     }
 
 
