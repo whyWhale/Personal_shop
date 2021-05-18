@@ -1,25 +1,24 @@
 package jpa.jpa_shop.web.controller;
 
+import jpa.jpa_shop.domain.item.Album;
 import jpa.jpa_shop.domain.item.Book;
-import jpa.jpa_shop.domain.item.Item;
+import jpa.jpa_shop.domain.item.Movie;
 import jpa.jpa_shop.exception.NotSearchId;
 import jpa.jpa_shop.service.IFS.ItemServiceIFS;
 import jpa.jpa_shop.web.controller.dto.request.AlbumSaveRequestDto;
 import jpa.jpa_shop.web.controller.dto.request.BookSaveRequestDto;
 import jpa.jpa_shop.web.controller.dto.request.MovieSaveRequestDto;
+import jpa.jpa_shop.web.controller.dto.response.AlbumUpdateResponseDto;
 import jpa.jpa_shop.web.controller.dto.response.BookUpdateResponseDto;
+import jpa.jpa_shop.web.controller.dto.response.MovieUpdateResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -34,6 +33,9 @@ public class ItemController {
     {
         return "item/create";
     }
+
+
+    // saveForm
 
     @GetMapping("/createBook")
     public String CreateBook(Model model)
@@ -56,6 +58,8 @@ public class ItemController {
         return "item/createMovie";
     }
 
+
+    // list
     @GetMapping("/list")
     public String list(Model model)
     {
@@ -63,8 +67,9 @@ public class ItemController {
         return "item/itemList";
     }
 
+    // updateForm
     @GetMapping("/book/{itemId}")
-    public String updateItem(@PathVariable("itemId") Long itemId,Model model){
+    public String updateFormBook(@PathVariable("itemId") Long itemId,Model model){
         Book book=(Book) itemService.findById(itemId);
         if(book==null)
         {
@@ -74,7 +79,30 @@ public class ItemController {
         return "item/update/updateBook";
     }
 
-    // POST
+    @GetMapping("/movie/{itemId}")
+    public String updateFormMovie(@PathVariable("itemId") Long itemId,Model model){
+        Movie movie=(Movie) itemService.findById(itemId);
+        if(movie==null)
+        {
+            throw new NotSearchId("존재하지 않는 상품입니다.");
+        }
+        model.addAttribute("updateMovie",movie.toEntity());
+        return "item/update/updateMovie";
+    }
+
+    @GetMapping("/album/{itemId}")
+    public String updateFormAlbum(@PathVariable("itemId") Long itemId,Model model){
+        Album album=(Album) itemService.findById(itemId);
+        if(album==null)
+        {
+            throw new NotSearchId("존재하지 않는 상품입니다.");
+        }
+        model.addAttribute("updateAlbum",album.toEntity());
+        return "item/update/updateAlbum";
+    }
+
+
+    // Create POST
     @PostMapping("/book")
     public String save(@Valid BookSaveRequestDto bookSaveRequestDto, BindingResult result)
     {
@@ -106,6 +134,25 @@ public class ItemController {
         }
         itemService.saveItem(movieSaveRequestDto.toEntity());
         return "redirect:/";
+    }
+
+    // Update Post
+    @PostMapping("/book/{itemId}")
+    public String updateBook(@ModelAttribute("updateBook") BookUpdateResponseDto bookUpdateResponseDto){
+        itemService.saveItem(bookUpdateResponseDto.toEntity());
+        return "redirect:/item/list";
+    }
+
+    @PostMapping("/movie/{itemId}")
+    public String updateMovie(@ModelAttribute(value = "updateMovie") MovieUpdateResponseDto movieUpdateResponseDto){
+        itemService.saveItem(movieUpdateResponseDto.toEntity());
+        return "redirect:/item/list";
+    }
+
+    @PostMapping("/album/{itemId}")
+    public String updateAlbum(@ModelAttribute(value = "updateAlbum")AlbumUpdateResponseDto albumUpdateResponseDto){
+        itemService.saveItem(albumUpdateResponseDto.toEntity());
+        return "redirect:/item/list";
     }
 
 
