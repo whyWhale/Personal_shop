@@ -1,5 +1,7 @@
 package jpa.jpa_shop.domain.item;
 
+import jpa.jpa_shop.web.controller.dto.response.AlbumUpdateResponseDto;
+import jpa.jpa_shop.web.controller.dto.response.MovieUpdateResponseDto;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
@@ -19,5 +21,17 @@ public class Album extends Item{
         super(name, price, stockQuantity);
         this.artist = artist;
         this.etc = etc;
+    }
+
+    public AlbumUpdateResponseDto toEntity()
+    {
+        return AlbumUpdateResponseDto.builder()
+                .id(getId())
+                .name(getName())
+                .price(getPrice())
+                .stockQuantity(getStockQuantity())
+                .artist(artist)
+                .etc(etc)
+                .build();
     }
 }
