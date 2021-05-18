@@ -1,5 +1,7 @@
 package jpa.jpa_shop.domain.item;
 
+import jpa.jpa_shop.web.controller.dto.response.BookUpdateResponseDto;
+import jpa.jpa_shop.web.controller.dto.response.MovieUpdateResponseDto;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
@@ -23,4 +25,17 @@ public class Movie extends Item{
         this.director = director;
         this.actor = actor;
     }
+
+    public MovieUpdateResponseDto toEntity()
+    {
+        return MovieUpdateResponseDto.builder()
+                .id(getId())
+                .name(getName())
+                .price(getPrice())
+                .stockQuantity(getStockQuantity())
+                .director(director)
+                .actor(actor)
+                .build();
+    }
+
 }
