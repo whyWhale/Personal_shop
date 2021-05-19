@@ -108,7 +108,7 @@ public class ItemController {
     {
         if(result.hasErrors())
         {
-            return "item/createBook";
+            return "/item/create/createBook";
         }
         itemService.saveItem(bookSaveRequestDto.toEntity());
         return "redirect:/";
@@ -119,7 +119,7 @@ public class ItemController {
     {
         if(result.hasErrors())
         {
-            return "item/createAlbum";
+            return "/item/create/createAlbum";
         }
         itemService.saveItem(albumSaveRequestDto.toEntity());
         return "redirect:/";
@@ -130,7 +130,7 @@ public class ItemController {
     {
         if(result.hasErrors())
         {
-            return "item/createMovie";
+            return "/item/create/createMovie";
         }
         itemService.saveItem(movieSaveRequestDto.toEntity());
         return "redirect:/";
@@ -138,20 +138,32 @@ public class ItemController {
 
     // Update Post
     @PostMapping("/book/{itemId}")
-    public String updateBook(@ModelAttribute("updateBook") BookUpdateResponseDto bookUpdateResponseDto){
-        itemService.saveItem(bookUpdateResponseDto.toEntity());
+    public String updateBook(@Valid @ModelAttribute("updateBook") BookUpdateResponseDto bookUpdateResponseDto,BindingResult result){
+        if(result.hasErrors())
+        {
+            return "/item/update/updateBook";
+        }
+        itemService.updateItem(bookUpdateResponseDto.toEntity());
         return "redirect:/item/list";
     }
 
     @PostMapping("/movie/{itemId}")
-    public String updateMovie(@ModelAttribute(value = "updateMovie") MovieUpdateResponseDto movieUpdateResponseDto){
-        itemService.saveItem(movieUpdateResponseDto.toEntity());
+    public String updateMovie(@Valid @ModelAttribute(value = "updateMovie") MovieUpdateResponseDto movieUpdateResponseDto,BindingResult result){
+        if(result.hasErrors())
+        {
+            return "/item/update/updateMovie";
+        }
+        itemService.updateItem(movieUpdateResponseDto.toEntity());
         return "redirect:/item/list";
     }
 
     @PostMapping("/album/{itemId}")
-    public String updateAlbum(@ModelAttribute(value = "updateAlbum")AlbumUpdateResponseDto albumUpdateResponseDto){
-        itemService.saveItem(albumUpdateResponseDto.toEntity());
+    public String updateAlbum(@Valid @ModelAttribute(value = "updateAlbum")AlbumUpdateResponseDto albumUpdateResponseDto,BindingResult result){
+        if(result.hasErrors())
+        {
+            return "/item/update/updateAlbum";
+        }
+        itemService.updateItem(albumUpdateResponseDto.toEntity());
         return "redirect:/item/list";
     }
 

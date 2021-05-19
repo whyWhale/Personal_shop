@@ -1,6 +1,9 @@
 package jpa.jpa_shop.service;
 
+import jpa.jpa_shop.domain.item.Album;
+import jpa.jpa_shop.domain.item.Book;
 import jpa.jpa_shop.domain.item.Item;
+import jpa.jpa_shop.domain.item.Movie;
 import jpa.jpa_shop.domain.item.Repository.ItemRepository;
 import jpa.jpa_shop.exception.NotSearchId;
 import jpa.jpa_shop.service.IFS.ItemServiceIFS;
@@ -37,5 +40,26 @@ public class ItemService implements ItemServiceIFS {
             throw new NotSearchId("존재하지 않는 상품입니다.");
         }
         return item;
+    }
+
+    @Transactional
+    @Override
+    public void updateItem(Item item) {
+        Item entityItem = itemRepository.findById(item.getId());
+        switch (entityItem.getClass().getSimpleName().toLowerCase())
+        {
+            case "movie":
+                Movie movie = (Movie) entityItem;
+                movie.update(item);
+                break;
+            case "book":
+                Book book = (Book) entityItem;
+                book.update(item);
+                break;
+            case "album":
+                Album album = (Album) entityItem;
+                album.update(item);
+                break;
+        }
     }
 }
