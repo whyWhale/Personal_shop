@@ -5,7 +5,7 @@ import jpa.jpa_shop.exception.NotEnoughStockException;
 import jpa.jpa_shop.web.controller.dto.response.ItemListResponseDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.LinkedList;
@@ -15,12 +15,13 @@ import java.util.List;
 @NoArgsConstructor
 @Inheritance(strategy =InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "dtype")
+@DynamicUpdate
 @Entity
 public abstract class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id")
-    Long id;
+    private Long id;
 
     private String name;
     private int price;
@@ -61,5 +62,13 @@ public abstract class Item {
                 .build();
     }
 
+    public abstract void update(Item item);
 
+    public void parentUpdate(Item dto)
+    {
+        this.name= dto.getName();
+        this.price=dto.getPrice();
+        this.stockQuantity= dto.getStockQuantity();
+
+    }
 }

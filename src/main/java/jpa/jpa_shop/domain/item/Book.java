@@ -4,6 +4,7 @@ import jpa.jpa_shop.web.controller.dto.response.BookUpdateResponseDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.Entity;
 @Getter
 @NoArgsConstructor
 @DiscriminatorValue("B")
+@DynamicUpdate
 @Entity
 public class Book extends Item{
     private String author;
@@ -34,5 +36,13 @@ public class Book extends Item{
                 .author(author)
                 .isbn(isbn)
                 .build();
+    }
+
+    @Override
+    public void update(Item item) {
+        Book dto=(Book) item;
+        this.parentUpdate(item);
+        this.author= dto.getAuthor();
+        this.isbn= dto.getIsbn();
     }
 }

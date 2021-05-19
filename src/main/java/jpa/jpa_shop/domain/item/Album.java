@@ -1,17 +1,17 @@
 package jpa.jpa_shop.domain.item;
 
 import jpa.jpa_shop.web.controller.dto.response.AlbumUpdateResponseDto;
-import jpa.jpa_shop.web.controller.dto.response.MovieUpdateResponseDto;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 @Getter
 @NoArgsConstructor
 @DiscriminatorValue("A")
+@DynamicUpdate
 @Entity
 public class Album extends Item{
     private String artist;
@@ -33,5 +33,13 @@ public class Album extends Item{
                 .artist(artist)
                 .etc(etc)
                 .build();
+    }
+
+    @Override
+    public void update(Item toItem) {
+        Album dto =(Album) toItem;
+        this.parentUpdate(toItem);
+        this.artist=dto.getArtist();
+        this.etc=dto.getEtc();
     }
 }

@@ -1,18 +1,17 @@
 package jpa.jpa_shop.domain.item;
 
-import jpa.jpa_shop.web.controller.dto.response.BookUpdateResponseDto;
 import jpa.jpa_shop.web.controller.dto.response.MovieUpdateResponseDto;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 @Getter
 @DiscriminatorValue("M")
 @NoArgsConstructor
+@DynamicUpdate
 @Entity
 public class Movie extends Item{
     private String director;
@@ -38,4 +37,11 @@ public class Movie extends Item{
                 .build();
     }
 
+    @Override
+    public void update(Item item) {
+        Movie dto=(Movie) item;
+        this.parentUpdate(item);
+        this.director=dto.getDirector();
+        this.actor=dto.getActor();
+    }
 }
