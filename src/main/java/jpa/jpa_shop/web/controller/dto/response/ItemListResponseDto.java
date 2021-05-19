@@ -8,16 +8,20 @@ import lombok.ToString;
 
 @NoArgsConstructor
 @Getter
-public class ItemListResponseDto extends Item {
+public class ItemListResponseDto {
     private Long id;
+    private String name;
+    private int price;
+    private int stockQuantity;
     private String type;
 
     @Builder
-    public ItemListResponseDto(String name, int price, int stockQuantity, String type, Long id) {
-        super(name, price, stockQuantity);
-        this.id=id;
-        this.type=type;
+    public ItemListResponseDto(Long id, String name, int price, int stockQuantity, String type) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+        this.type = type;
     }
-
 
 }
