@@ -4,11 +4,14 @@ import jpa.jpa_shop.domain.MiddleTable.OrderItem;
 import jpa.jpa_shop.domain.delivery.Delivery;
 import jpa.jpa_shop.domain.delivery.DeliveryStatus;
 import jpa.jpa_shop.domain.member.Member;
-import lombok.*;
-import net.bytebuddy.implementation.bytecode.Throw;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -42,31 +45,17 @@ public class Order {
     private Delivery delivery;
 
     @Builder
-    public Order(LocalDateTime orderDate, OrderStatus status) {
+    public Order(LocalDateTime orderDate, OrderStatus status, Member member, Delivery delivery) {
         this.orderDate = orderDate;
         this.status = status;
+        this.member = member;
+        this.delivery = delivery;
     }
 
-    public void setMember(Member member)
-    {
-        this.member=member;
-        member.getOrders().add(this);
-    }
-
-    public void addOrderItems(OrderItem orderItem)
+    private void addOrderItems(OrderItem orderItem)
     {
         orderItems.add(orderItem);
         orderItem.setOrder(this);
-    }
-
-    public void setDelivery(Delivery delivery)
-    {
-        this.delivery=delivery;
-        delivery.setOrder(this);
-    }
-
-    public void setStatus(OrderStatus status) {
-        this.status = status;
     }
 
     public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems)
@@ -74,9 +63,10 @@ public class Order {
         Order order=Order.builder()
                 .status(OrderStatus.ORDER)
                 .orderDate(LocalDateTime.now())
+                .member(member)
+                .delivery(delivery)
                 .build();
-        order.setMember(member);
-        order.setDelivery(delivery);
+
         for (OrderItem orderItem : orderItems) {
             order.addOrderItems(orderItem);
         }
@@ -90,7 +80,7 @@ public class Order {
         {
             throw new IllegalStateException("배송이 완료된 상품은 취소가 불가능합니다.");
         }
-        this.setStatus(OrderStatus.CANCEL);
+        this.status=OrderStatus.CANCEL;
         for (OrderItem orderItem : orderItems) {
             orderItem.cancel();
         }
@@ -101,5 +91,8 @@ public class Order {
         return orderItems.stream().mapToInt(OrderItem::getTotalPrice).sum();
     }
 
-
+    public String LocalDateTimeFormat()
+    {
+        return this.orderDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
 }
