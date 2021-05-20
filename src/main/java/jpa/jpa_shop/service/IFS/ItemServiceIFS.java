@@ -10,6 +10,8 @@ public interface ItemServiceIFS {
 
     public List<ItemListResponseDto> findItems();
 
+    public List<Item> findItemsToOrder();
+
     public Item findById(Long itemId);
 
     public void updateItem(Item item);

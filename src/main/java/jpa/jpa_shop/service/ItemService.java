@@ -33,6 +33,11 @@ public class ItemService implements ItemServiceIFS {
     }
 
     @Override
+    public List<Item> findItemsToOrder() {
+        return itemRepository.findAll();
+    }
+
+    @Override
     public Item findById(Long itemId) {
         Item item = itemRepository.findById(itemId);
         if(item==null)
