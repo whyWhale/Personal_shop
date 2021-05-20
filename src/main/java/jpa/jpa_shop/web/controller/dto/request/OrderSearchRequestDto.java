@@ -2,9 +2,11 @@ package jpa.jpa_shop.web.controller.dto.request;
 
 import jpa.jpa_shop.domain.orders.OrderStatus;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
+@NoArgsConstructor
+@Data
 public class OrderSearchRequestDto {
     private String memberName;
     private OrderStatus orderStatus;
