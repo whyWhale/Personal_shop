@@ -6,7 +6,7 @@ import jpa.jpa_shop.domain.member.QMember;
 import jpa.jpa_shop.domain.orders.Order;
 import jpa.jpa_shop.domain.orders.OrderStatus;
 import jpa.jpa_shop.domain.orders.QOrder;
-import jpa.jpa_shop.web.controller.dto.request.OrderSearchRequestDto;
+import jpa.jpa_shop.web.controller.dto.request.order.OrderSearchRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;

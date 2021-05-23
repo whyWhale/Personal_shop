@@ -1,7 +1,7 @@
 package jpa.jpa_shop.service.IFS;
 
 import jpa.jpa_shop.domain.item.Item;
-import jpa.jpa_shop.web.controller.dto.response.ItemListResponseDto;
+import jpa.jpa_shop.web.controller.dto.response.item.ItemListResponseDto;
 
 import java.util.List;
 

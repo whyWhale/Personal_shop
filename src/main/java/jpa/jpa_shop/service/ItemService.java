@@ -7,7 +7,7 @@ import jpa.jpa_shop.domain.item.Movie;
 import jpa.jpa_shop.domain.item.Repository.ItemRepository;
 import jpa.jpa_shop.exception.NotSearchId;
 import jpa.jpa_shop.service.IFS.ItemServiceIFS;
-import jpa.jpa_shop.web.controller.dto.response.ItemListResponseDto;
+import jpa.jpa_shop.web.controller.dto.response.item.ItemListResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,4 +1,4 @@
-package jpa.jpa_shop.web.controller.dto.request;
+package jpa.jpa_shop.web.controller.dto.request.item;
 
 
 import jpa.jpa_shop.domain.item.Book;

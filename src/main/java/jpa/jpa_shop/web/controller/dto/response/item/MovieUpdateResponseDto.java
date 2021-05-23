@@ -1,4 +1,4 @@
-package jpa.jpa_shop.web.controller.dto.response;
+package jpa.jpa_shop.web.controller.dto.response.item;
 
 import jpa.jpa_shop.domain.item.Movie;
 import lombok.Builder;
