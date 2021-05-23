@@ -1,14 +1,14 @@
-package jpa.jpa_shop.web.controller.dto.request;
+package jpa.jpa_shop.web.controller.dto.request.item;
 
 import jpa.jpa_shop.domain.item.Album;
+import jpa.jpa_shop.domain.item.Movie;
 import lombok.Data;
-import lombok.ToString;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 @Data
-public class AlbumSaveRequestDto {
+public class MovieSaveRequestDto {
     @NotEmpty(message = "이름을 입력해주세요.")
     private String name;
 
@@ -18,21 +18,20 @@ public class AlbumSaveRequestDto {
     @Min(value = 1,message = "1개 이상이여야 합니다.")
     private int stockQuantity;
 
-    @NotEmpty(message = "아티스트를 입력해주세요")
-    private String artist;
+    @NotEmpty(message = "감독을 입력해주세요.")
+    private String director;
 
-    @NotEmpty(message = "작곡가:xxx 작사가:xxx 형식으로 입력해주세요")
-    private String etc;
+    @NotEmpty(message = "주연 배우를 입력해주세요.")
+    private String actor;
 
-    public Album toEntity()
+    public Movie toEntity()
     {
-        return Album.builder()
+        return Movie.builder()
                 .name(name)
                 .price(price)
                 .stockQuantity(stockQuantity)
-                .artist(artist)
-                .etc(etc)
+                .director(director)
+                .actor(actor)
                 .build();
     }
-
 }

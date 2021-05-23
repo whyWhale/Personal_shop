@@ -4,7 +4,7 @@ import jpa.jpa_shop.domain.item.Album;
 import jpa.jpa_shop.domain.item.Book;
 import jpa.jpa_shop.domain.item.Movie;
 import jpa.jpa_shop.service.IFS.ItemServiceIFS;
-import jpa.jpa_shop.web.controller.dto.response.ItemListResponseDto;
+import jpa.jpa_shop.web.controller.dto.response.item.ItemListResponseDto;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;

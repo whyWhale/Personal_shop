@@ -1,7 +1,7 @@
 package jpa.jpa_shop.service.IFS;
 
 import jpa.jpa_shop.domain.orders.Order;
-import jpa.jpa_shop.web.controller.dto.request.OrderSearchRequestDto;
+import jpa.jpa_shop.web.controller.dto.request.order.OrderSearchRequestDto;
 
 import java.util.List;
 

@@ -1,13 +1,11 @@
 package jpa.jpa_shop.domain.member;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Embeddable;
 @Embeddable
 @NoArgsConstructor
+@Setter(AccessLevel.PRIVATE)
 @Getter
 public class Address {
     private String city;
@@ -19,5 +17,13 @@ public class Address {
         this.city = city;
         this.street = street;
         this.zipcode = zipcode;
+    }
+
+    public Address update(String city, String street, String zipcode)
+    {
+        this.city=city;
+        this.street=street;
+        this.zipcode=zipcode;
+        return this;
     }
 }

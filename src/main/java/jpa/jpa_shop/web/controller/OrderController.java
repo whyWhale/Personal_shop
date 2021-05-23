@@ -6,7 +6,7 @@ import jpa.jpa_shop.domain.orders.Order;
 import jpa.jpa_shop.service.IFS.ItemServiceIFS;
 import jpa.jpa_shop.service.IFS.MemberServiceIFS;
 import jpa.jpa_shop.service.IFS.OrderServiceIFS;
-import jpa.jpa_shop.web.controller.dto.request.OrderSearchRequestDto;
+import jpa.jpa_shop.web.controller.dto.request.order.OrderSearchRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

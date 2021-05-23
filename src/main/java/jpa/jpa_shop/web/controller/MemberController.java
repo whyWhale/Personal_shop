@@ -1,19 +1,13 @@
 package jpa.jpa_shop.web.controller;
 
-import jpa.jpa_shop.domain.member.Member;
-import jpa.jpa_shop.web.controller.dto.request.MemberSaveRequestDto;
+import jpa.jpa_shop.web.controller.dto.request.member.MemberSaveRequestDto;
 import jpa.jpa_shop.service.IFS.MemberServiceIFS;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.validation.Valid;
-import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/member")
