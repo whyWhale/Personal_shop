@@ -1,13 +1,12 @@
 package jpa.jpa_shop.web.controller.API;
 
-import jpa.jpa_shop.web.controller.dto.request.MemberSaveRequestDto;
+import jpa.jpa_shop.domain.member.Member;
+import jpa.jpa_shop.web.controller.dto.request.member.MemberSaveRequestDto;
 import jpa.jpa_shop.service.IFS.MemberServiceIFS;
+import jpa.jpa_shop.web.controller.dto.request.member.MemberUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -19,10 +18,23 @@ public class MemberApiController {
     private final MemberServiceIFS memberService;
 
     @PostMapping("")
-    public Long save(@Valid @RequestBody MemberSaveRequestDto requestDto)
+    public void save(@Valid @RequestBody MemberSaveRequestDto requestDto)
     {
-        log.info("{}","CREAT MEMBER"+requestDto.toString());
+        log.info("{}","create memberName -- >"+requestDto.getName());
         memberService.Join(requestDto.toEntity());
-        return 1L;
+    }
+
+    @PutMapping("/{id}")
+    public void update(@PathVariable("id") Long id, @Valid @RequestBody MemberUpdateRequestDto requestDto)
+    {
+        log.info("{}","update Id -- >"+id);
+        memberService.update(id,requestDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id")Long id)
+    {
+        log.info("{}","delete Id -- >"+id);
+        memberService.delete(id);
     }
 }

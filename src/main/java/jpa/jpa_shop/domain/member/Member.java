@@ -1,10 +1,12 @@
 package jpa.jpa_shop.domain.member;
 
 import jpa.jpa_shop.domain.orders.Order;
+import jpa.jpa_shop.web.controller.dto.request.member.MemberUpdateRequestDto;
+import jpa.jpa_shop.web.controller.dto.response.member.MemberUpdateResponseDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.LinkedList;
@@ -12,6 +14,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
+@DynamicUpdate
 @Entity
 public class Member {
     @Id
@@ -32,4 +35,21 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Order> orders=new LinkedList<>();
+
+    public Member update(MemberUpdateRequestDto requestDto) {
+        this.address.update(requestDto.getCity(), requestDto.getStreet(), requestDto.getZipcode());
+        this.name= requestDto.getName();
+        return this;
+    }
+
+    public MemberUpdateResponseDto toDto()
+    {
+        return MemberUpdateResponseDto.builder()
+                .id(getId())
+                .name(getName())
+                .city(getAddress().getCity())
+                .street(getAddress().getStreet())
+                .zipcode(getAddress().getZipcode())
+                .build();
+    }
 }
