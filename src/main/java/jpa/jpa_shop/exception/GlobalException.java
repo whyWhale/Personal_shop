@@ -43,5 +43,13 @@ public class GlobalException {
         return new ResponseEntity<>(errorResponse,HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(value = IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> Nodata(IllegalArgumentException exception)
+    {
+        String message = exception.getMessage();
+        ErrorResponse errorResponse=ErrorResponse.of(HttpStatus.NO_CONTENT,message);
+        return new ResponseEntity<>(errorResponse,HttpStatus.NO_CONTENT);
+    }
+
 
 }
