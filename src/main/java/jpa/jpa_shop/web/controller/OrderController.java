@@ -7,6 +7,7 @@ import jpa.jpa_shop.service.IFS.ItemServiceIFS;
 import jpa.jpa_shop.service.IFS.MemberServiceIFS;
 import jpa.jpa_shop.service.IFS.OrderServiceIFS;
 import jpa.jpa_shop.web.controller.dto.request.order.OrderSearchRequestDto;
+import jpa.jpa_shop.web.controller.dto.response.member.MemberResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -28,7 +30,7 @@ public class OrderController {
     @GetMapping("")
     public String createForm(Model model)
     {
-        List<Member> memberList=memberService.findAll();
+        List<MemberResponseDto> memberList=memberService.findAll();
         List<Item> itemList=itemService.findItemsToOrder();
 
         model.addAttribute("members",memberList);

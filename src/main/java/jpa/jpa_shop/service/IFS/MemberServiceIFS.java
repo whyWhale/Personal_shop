@@ -2,6 +2,7 @@ package jpa.jpa_shop.service.IFS;
 
 import jpa.jpa_shop.domain.member.Member;
 import jpa.jpa_shop.web.controller.dto.request.member.MemberUpdateRequestDto;
+import jpa.jpa_shop.web.controller.dto.response.member.MemberResponseDto;
 
 import java.util.List;
 
@@ -11,9 +12,9 @@ public interface MemberServiceIFS {
 
     public void update(Long id, MemberUpdateRequestDto requestDto);
 
-    public List<Member> findAll();
+    public List<MemberResponseDto> findAll();
 
-    public Member findById(Long MemberId);
+    public MemberResponseDto findById(Long MemberId);
 
 
     void delete(Long id);
