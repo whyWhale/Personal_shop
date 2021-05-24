@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class MemberUpdateResponseDto {
+public class MemberResponseDto {
     private Long id;
 
     private String name;
@@ -18,7 +18,7 @@ public class MemberUpdateResponseDto {
     private String zipcode;
 
     @Builder
-    public MemberUpdateResponseDto(Long id, String name, String city, String street, String zipcode) {
+    public MemberResponseDto(Long id, String name, String city, String street, String zipcode) {
         this.id = id;
         this.name = name;
         this.city = city;

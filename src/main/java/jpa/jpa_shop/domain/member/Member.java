@@ -2,7 +2,7 @@ package jpa.jpa_shop.domain.member;
 
 import jpa.jpa_shop.domain.orders.Order;
 import jpa.jpa_shop.web.controller.dto.request.member.MemberUpdateRequestDto;
-import jpa.jpa_shop.web.controller.dto.response.member.MemberUpdateResponseDto;
+import jpa.jpa_shop.web.controller.dto.response.member.MemberResponseDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,9 +42,9 @@ public class Member {
         return this;
     }
 
-    public MemberUpdateResponseDto toDto()
+    public MemberResponseDto toDto()
     {
-        return MemberUpdateResponseDto.builder()
+        return MemberResponseDto.builder()
                 .id(getId())
                 .name(getName())
                 .city(getAddress().getCity())
@@ -52,4 +52,5 @@ public class Member {
                 .zipcode(getAddress().getZipcode())
                 .build();
     }
+
 }

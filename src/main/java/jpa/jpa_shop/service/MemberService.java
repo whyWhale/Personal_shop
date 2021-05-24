@@ -5,12 +5,14 @@ import jpa.jpa_shop.domain.member.Repository.MemberRepository;
 import jpa.jpa_shop.exception.NoEntity;
 import jpa.jpa_shop.service.IFS.MemberServiceIFS;
 import jpa.jpa_shop.web.controller.dto.request.member.MemberUpdateRequestDto;
+import jpa.jpa_shop.web.controller.dto.response.member.MemberResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.type.MethodMetadata;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -41,26 +43,26 @@ public class MemberService implements MemberServiceIFS {
     }
 
     @Override
-    public List<Member> findAll() {
-        return memberRepository.findAll();
+    public List<MemberResponseDto> findAll() {
+        return memberRepository.findAll().stream().map(Member::toDto).collect(Collectors.toList());
     }
 
     @Override
-    public Member findById(Long MemberId) {
+    public MemberResponseDto findById(Long MemberId) {
         Member byIdMember = memberRepository.findById(MemberId);
         if (byIdMember == null)
             throw new NoEntity();
-        return byIdMember;
+        return byIdMember.toDto();
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
-        Member deleteMember = findById(id);
+        Member deleteMember = memberRepository.findById(id);
         if (deleteMember == null) {
             throw new NoEntity("No info");
         }
-        memberRepository.delete(findById(id));
+        memberRepository.delete(deleteMember);
     }
 
 
