@@ -5,6 +5,7 @@ import jpa.jpa_shop.domain.item.Book;
 import jpa.jpa_shop.domain.item.Item;
 import jpa.jpa_shop.domain.item.Movie;
 import jpa.jpa_shop.domain.item.Repository.ItemRepository;
+import jpa.jpa_shop.exception.NoEntity;
 import jpa.jpa_shop.exception.NotSearchId;
 import jpa.jpa_shop.service.IFS.ItemServiceIFS;
 import jpa.jpa_shop.web.controller.dto.response.item.ItemListResponseDto;
@@ -66,5 +67,16 @@ public class ItemService implements ItemServiceIFS {
                 album.update(item);
                 break;
         }
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        Item deleteItem = itemRepository.findById(id);
+        if(deleteItem==null)
+        {
+            throw new NoEntity("No info");
+        }
+        itemRepository.delete(deleteItem);
     }
 }
