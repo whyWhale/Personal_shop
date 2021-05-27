@@ -15,4 +15,6 @@ public interface ItemServiceIFS {
     public Item findById(Long itemId);
 
     public void updateItem(Item item);
+
+    public void delete(Long id);
 }
