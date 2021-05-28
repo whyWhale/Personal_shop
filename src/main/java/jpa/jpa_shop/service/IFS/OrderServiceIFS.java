@@ -12,4 +12,7 @@ public interface OrderServiceIFS {
     public void cancelOrder(Long orderId);
 
     public List<Order> SearchMemberNameAndOrderStatus(OrderSearchRequestDto requestDto);
+
+    List<Order> findWithMemberAndDelivery();
+
 }
