@@ -31,6 +31,7 @@ public class OrderRepository {
     }
     // JPQL
     public List<Order> findAllJPQL(OrderSearchRequestDto orderSearch)
+
     {
         String jpql = "select o From Order o join o.member m";
         boolean isFirstCondition = true;
@@ -66,6 +67,7 @@ public class OrderRepository {
         }
         return query.getResultList();
     }
+    // queryDsl
     public List<Order> findAll(OrderSearchRequestDto orderSearch)
     {
         QOrder order=QOrder.order;
@@ -81,6 +83,7 @@ public class OrderRepository {
                 .limit(1000)
                 .fetch();
     }
+
     private BooleanExpression statusEquals(OrderStatus orderStatus)
     {
         if(orderStatus==null)
@@ -97,4 +100,11 @@ public class OrderRepository {
         return QMember.member.name.like(memberName);
     }
 
+
+    public List<Order> findWithMemberAndDelivery()
+    {
+        return em.createQuery("select o from Order o " +
+                "join fetch o.member m " +
+                "join fetch o.delivery d",Order.class).getResultList();
+    }
 }

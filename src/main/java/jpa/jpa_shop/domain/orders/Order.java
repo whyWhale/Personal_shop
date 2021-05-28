@@ -4,6 +4,7 @@ import jpa.jpa_shop.domain.MiddleTable.OrderItem;
 import jpa.jpa_shop.domain.delivery.Delivery;
 import jpa.jpa_shop.domain.delivery.DeliveryStatus;
 import jpa.jpa_shop.domain.member.Member;
+import jpa.jpa_shop.web.controller.dto.response.order.OrderResponseDto;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -45,7 +46,7 @@ public class Order {
     private Delivery delivery;
 
     @Builder
-    public Order(LocalDateTime orderDate, OrderStatus status, Member member, Delivery delivery) {
+    private Order(LocalDateTime orderDate, OrderStatus status, Member member, Delivery delivery) {
         this.orderDate = orderDate;
         this.status = status;
         this.member = member;
@@ -94,5 +95,18 @@ public class Order {
     public String LocalDateTimeFormat()
     {
         return this.orderDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
+
+    public OrderResponseDto toDto()
+    {
+        return OrderResponseDto.builder()
+                .id(this.id)
+                .itemRepresentation(orderItems.get(0).getItem().getName())
+                .totalPrice(this.getTotalPrice())
+                .orderStatus(this.status)
+                .memberName(this.getMember().getName())
+                .address(this.delivery.getAddress())
+                .orderDate(this.orderDate)
+                .build();
     }
 }
