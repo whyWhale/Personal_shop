@@ -115,9 +115,10 @@ public class OrderRepository {
         return em.createQuery(
                 "select distinct o from Order o " +
                         "join fetch o.member" +
-                        " join fetch o.delivery d join fetch o.orderItems oi join fetch oi.item i",Order.class
-        ).getResultList();
-
+                        " join fetch o.delivery d" +
+                        " join fetch o.orderItems oi" +
+                        " join fetch oi.item i"
+                ,Order.class).getResultList();
     }
 
     public List<Order> findWithMemberAndDelivery(int offset, int limit) {
@@ -128,7 +129,5 @@ public class OrderRepository {
                 .setMaxResults(limit)
                 .getResultList();
     }
-
-    // paging offset
 
 }

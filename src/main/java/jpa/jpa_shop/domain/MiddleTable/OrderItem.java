@@ -2,6 +2,7 @@ package jpa.jpa_shop.domain.MiddleTable;
 
 import jpa.jpa_shop.domain.item.Item;
 import jpa.jpa_shop.domain.orders.Order;
+import jpa.jpa_shop.web.controller.dto.response.orderItem.OrderItemResponseDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -61,5 +62,14 @@ public class OrderItem {
     public int getTotalPrice()
     {
         return getOrderPrice()*getCount();
+    }
+
+    public OrderItemResponseDto toDto()
+    {
+        return OrderItemResponseDto.builder()
+                .itemName(getItem().getName())
+                .orderPrice(getOrderPrice())
+                .count(count)
+                .build();
     }
 }
