@@ -2,6 +2,7 @@ package jpa.jpa_shop.domain.orders.Repository;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jpa.jpa_shop.domain.delivery.QDelivery;
 import jpa.jpa_shop.domain.member.QMember;
 import jpa.jpa_shop.domain.orders.Order;
 import jpa.jpa_shop.domain.orders.OrderStatus;
@@ -31,7 +32,6 @@ public class OrderRepository {
     }
     // JPQL
     public List<Order> findAllJPQL(OrderSearchRequestDto orderSearch)
-
     {
         String jpql = "select o From Order o join o.member m";
         boolean isFirstCondition = true;
@@ -72,6 +72,7 @@ public class OrderRepository {
     {
         QOrder order=QOrder.order;
         QMember member=QMember.member;
+        QDelivery delivery=QDelivery.delivery;
 
         JPAQueryFactory query=new JPAQueryFactory(em);
 
@@ -79,6 +80,7 @@ public class OrderRepository {
                 .select(order)
                 .from(order)
                 .join(order.member,member)
+                .join(order.delivery,delivery)
                 .where(statusEquals(orderSearch.getOrderStatus()),nameLike(orderSearch.getMemberName()))
                 .limit(1000)
                 .fetch();
@@ -107,4 +109,25 @@ public class OrderRepository {
                 "join fetch o.member m " +
                 "join fetch o.delivery d",Order.class).getResultList();
     }
+
+    public List<Order> findAllWithItem()
+    {
+        return em.createQuery(
+                "select distinct o from Order o " +
+                        "join fetch o.member" +
+                        " join fetch o.delivery d" +
+                        " join fetch o.orderItems oi" +
+                        " join fetch oi.item i"
+                ,Order.class).getResultList();
+    }
+
+    public List<Order> findWithMemberAndDelivery(int offset, int limit) {
+        return em.createQuery("select o from Order o " +
+                "join fetch o.member m " +
+                "join fetch o.delivery d",Order.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+    }
+
 }

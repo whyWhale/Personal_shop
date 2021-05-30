@@ -60,5 +60,15 @@ public class OrderService implements OrderServiceIFS {
         return orderRepository.findWithMemberAndDelivery();
     }
 
+    @Override
+    public List<Order> findWithMemberAndDelivery(int offset, int limit) {
+        return orderRepository.findWithMemberAndDelivery(offset,limit);
+    }
+
+    @Override
+    public List<Order> findAllWithItem() {
+        return orderRepository.findAllWithItem();
+    }
+
 
 }

@@ -7,12 +7,15 @@ import java.util.List;
 
 public interface OrderServiceIFS {
 
-    public Long order(Long memberId,Long itemId,int count);
+    public Long order(Long memberId, Long itemId, int count);
 
     public void cancelOrder(Long orderId);
 
     public List<Order> SearchMemberNameAndOrderStatus(OrderSearchRequestDto requestDto);
 
-    List<Order> findWithMemberAndDelivery();
+    public List<Order> findWithMemberAndDelivery();
 
+    public List<Order> findWithMemberAndDelivery(int offset, int limit);
+
+    public List<Order> findAllWithItem();
 }
