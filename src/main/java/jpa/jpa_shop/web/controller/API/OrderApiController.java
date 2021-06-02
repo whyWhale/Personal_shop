@@ -53,9 +53,15 @@ public class OrderApiController {
 
 
     @PostMapping("")
-    public void createOrder(@Valid @RequestBody OrderSaveRequestDto dto)
+    public void createOrder(@Valid @RequestBody OrderSaveRequestDto orderSaveRequestDto)
     {
-        orderService.order(dto);
+        orderService.order(orderSaveRequestDto);
+    }
+
+    @DeleteMapping("/{orderId}")
+    public void cancel(@PathVariable("orderId") Long orderId)
+    {
+        orderService.cancelOrder(orderId);
     }
 
 

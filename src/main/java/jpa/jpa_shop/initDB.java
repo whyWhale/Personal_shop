@@ -51,7 +51,7 @@ public class initDB {
 
             Book book = Book.builder()
                     .author("구종만")
-                    .isbn("isbn")
+                    .isbn("131-12-1113NQU-123")
                     .name("알고리즘 문제 해결 전략")
                     .price(33000)
                     .stockQuantity(10)
@@ -82,6 +82,7 @@ public class initDB {
                     .name("밤 편지")
                     .price(55000)
                     .stockQuantity(10)
+                    .etc("작곡,작사 : IU")
                     .build();
 
             Album album2 = Album.builder()
@@ -89,6 +90,7 @@ public class initDB {
                     .name("라일락")
                     .price(65000)
                     .stockQuantity(10)
+                    .etc("작곡,작사 : IU")
                     .build();
 
             em.persist(album);
