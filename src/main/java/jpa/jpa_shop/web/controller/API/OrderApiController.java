@@ -1,17 +1,15 @@
 package jpa.jpa_shop.web.controller.API;
 
 import jpa.jpa_shop.domain.orders.Order;
-import jpa.jpa_shop.domain.orders.Repository.OrderRepository;
 import jpa.jpa_shop.service.IFS.OrderServiceIFS;
+import jpa.jpa_shop.web.controller.dto.request.order.OrderSaveRequestDto;
 import jpa.jpa_shop.web.controller.dto.request.order.OrderSearchRequestDto;
 import jpa.jpa_shop.web.controller.dto.response.order.OrderDetailResponseDto;
 import jpa.jpa_shop.web.controller.dto.response.order.OrderResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,7 +18,6 @@ import java.util.stream.Collectors;
 @RestController
 public class OrderApiController {
     private final OrderServiceIFS orderService;
-    private final OrderRepository orderRepository;
 
     // 주문 검색
     @GetMapping("")
@@ -33,7 +30,7 @@ public class OrderApiController {
         // 페이징 처리 불가. 모든 Domain fetch (result : 쿼리1)
     @GetMapping("/v1/notUsing")
     public List<OrderResponseDto> notUsing() {
-        return orderRepository.findAllWithItem().stream().map(Order::toDto).collect(Collectors.toList());
+        return orderService.findAllWithItem().stream().map(Order::toDto).collect(Collectors.toList());
     }
         // 페이징 처리 , 쿼리 최적화
     @GetMapping("/list")
@@ -54,6 +51,18 @@ public class OrderApiController {
         return orderService.findWithMemberAndDelivery(offset,limit).stream().map(OrderDetailResponseDto::new).collect(Collectors.toList());
     }
 
+
+    @PostMapping("")
+    public void createOrder(@Valid @RequestBody OrderSaveRequestDto orderSaveRequestDto)
+    {
+        orderService.order(orderSaveRequestDto);
+    }
+
+    @DeleteMapping("/{orderId}")
+    public void cancel(@PathVariable("orderId") Long orderId)
+    {
+        orderService.cancelOrder(orderId);
+    }
 
 
 

@@ -74,6 +74,21 @@ public class Order {
         return order;
     }
 
+    public static Order createOrder(Member member, Delivery delivery, List<OrderItem> orderItems)
+    {
+        Order order=Order.builder()
+                .status(OrderStatus.ORDER)
+                .orderDate(LocalDateTime.now())
+                .member(member)
+                .delivery(delivery)
+                .build();
+
+        for (OrderItem orderItem : orderItems) {
+            order.addOrderItems(orderItem);
+        }
+        return order;
+    }
+
     // Business Logic
     public void cancel()
     {

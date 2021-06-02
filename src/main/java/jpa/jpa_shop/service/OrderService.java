@@ -9,12 +9,15 @@ import jpa.jpa_shop.domain.member.Member;
 import jpa.jpa_shop.domain.member.Repository.MemberRepository;
 import jpa.jpa_shop.domain.orders.Order;
 import jpa.jpa_shop.domain.orders.Repository.OrderRepository;
-import jpa.jpa_shop.web.controller.dto.request.order.OrderSearchRequestDto;
+import jpa.jpa_shop.exception.NoEntity;
 import jpa.jpa_shop.service.IFS.OrderServiceIFS;
+import jpa.jpa_shop.web.controller.dto.request.order.OrderSaveRequestDto;
+import jpa.jpa_shop.web.controller.dto.request.order.OrderSearchRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -39,6 +42,29 @@ public class OrderService implements OrderServiceIFS {
 
         OrderItem orderItem= OrderItem.createOrderItem(item,item.getPrice(),count);
         Order order=Order.createOrder(member,delivery,orderItem);
+        orderRepository.save(order);
+        return order.getId();
+    }
+
+    @Override
+    @Transactional
+    public Long order(OrderSaveRequestDto orderSaveRequestDto) {
+        Member member = memberRepository.findById(Long.parseLong(orderSaveRequestDto.getMemberId()));
+        Long[] dtoItems = orderSaveRequestDto.getItems();
+        int[] count = orderSaveRequestDto.getCount();
+        List<OrderItem> orderItems=new ArrayList<>();
+        for (int i = 0; i < dtoItems.length; i++) {
+            Item item = itemRepository.findById(dtoItems[i]);
+            if(item==null)
+                throw new NoEntity("No Item");
+            orderItems.add(OrderItem.createOrderItem(item,item.getPrice(),count[i]));
+        }
+
+        Delivery delivery = Delivery.builder()
+                .address(member.getAddress())
+                .status(DeliveryStatus.READY)
+                .build();
+        Order order = Order.createOrder(member, delivery, orderItems);
         orderRepository.save(order);
         return order.getId();
     }
