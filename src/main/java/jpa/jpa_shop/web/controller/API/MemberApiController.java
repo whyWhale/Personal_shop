@@ -1,12 +1,10 @@
 package jpa.jpa_shop.web.controller.API;
 
-import jpa.jpa_shop.domain.member.Member;
-import jpa.jpa_shop.web.controller.dto.request.member.MemberSaveRequestDto;
+import jpa.jpa_shop.web.dto.request.member.MemberSaveRequestDto;
 import jpa.jpa_shop.service.IFS.MemberServiceIFS;
-import jpa.jpa_shop.web.controller.dto.request.member.MemberUpdateRequestDto;
-import jpa.jpa_shop.web.controller.dto.response.ListResponse;
-import jpa.jpa_shop.web.controller.dto.response.member.MemberResponseDto;
-import lombok.Getter;
+import jpa.jpa_shop.web.dto.request.member.MemberUpdateRequestDto;
+import jpa.jpa_shop.web.dto.response.ListResponse;
+import jpa.jpa_shop.web.dto.response.member.MemberResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

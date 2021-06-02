@@ -1,14 +1,10 @@
-package jpa.jpa_shop.web.controller.dto.request.order;
+package jpa.jpa_shop.web.dto.request.order;
 
-import jpa.jpa_shop.domain.item.Item;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import java.util.Map;
 
 
 @NoArgsConstructor

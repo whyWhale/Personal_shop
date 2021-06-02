@@ -4,10 +4,9 @@ import jpa.jpa_shop.domain.member.Member;
 import jpa.jpa_shop.domain.member.Repository.MemberRepository;
 import jpa.jpa_shop.exception.NoEntity;
 import jpa.jpa_shop.service.IFS.MemberServiceIFS;
-import jpa.jpa_shop.web.controller.dto.request.member.MemberUpdateRequestDto;
-import jpa.jpa_shop.web.controller.dto.response.member.MemberResponseDto;
+import jpa.jpa_shop.web.dto.request.member.MemberUpdateRequestDto;
+import jpa.jpa_shop.web.dto.response.member.MemberResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.type.MethodMetadata;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,22 +1,19 @@
 package jpa.jpa_shop.web.controller;
 
 import jpa.jpa_shop.domain.item.Item;
-import jpa.jpa_shop.domain.member.Member;
 import jpa.jpa_shop.domain.orders.Order;
 import jpa.jpa_shop.service.IFS.ItemServiceIFS;
 import jpa.jpa_shop.service.IFS.MemberServiceIFS;
 import jpa.jpa_shop.service.IFS.OrderServiceIFS;
-import jpa.jpa_shop.web.controller.dto.request.order.OrderSearchRequestDto;
-import jpa.jpa_shop.web.controller.dto.response.member.MemberResponseDto;
+import jpa.jpa_shop.web.dto.request.order.OrderSearchRequestDto;
+import jpa.jpa_shop.web.dto.response.member.MemberResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Slf4j

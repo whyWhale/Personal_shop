@@ -1,11 +1,9 @@
-package jpa.jpa_shop.web.controller.dto.request.item;
+package jpa.jpa_shop.web.dto.request.item;
 
 
 import jpa.jpa_shop.domain.item.Book;
 import lombok.Data;
-import lombok.ToString;
 
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 

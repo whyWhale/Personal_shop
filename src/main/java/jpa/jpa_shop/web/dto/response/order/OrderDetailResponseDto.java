@@ -1,10 +1,10 @@
-package jpa.jpa_shop.web.controller.dto.response.order;
+package jpa.jpa_shop.web.dto.response.order;
 
 import jpa.jpa_shop.domain.MiddleTable.OrderItem;
 import jpa.jpa_shop.domain.member.Address;
 import jpa.jpa_shop.domain.orders.Order;
 import jpa.jpa_shop.domain.orders.OrderStatus;
-import jpa.jpa_shop.web.controller.dto.response.orderItem.OrderItemResponseDto;
+import jpa.jpa_shop.web.dto.response.orderItem.OrderItemResponseDto;
 import lombok.Builder;
 import lombok.Getter;
 

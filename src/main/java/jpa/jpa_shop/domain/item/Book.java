@@ -1,6 +1,6 @@
 package jpa.jpa_shop.domain.item;
 
-import jpa.jpa_shop.web.controller.dto.response.item.BookUpdateResponseDto;
+import jpa.jpa_shop.web.dto.response.item.BookUpdateResponseDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -2,11 +2,9 @@ package jpa.jpa_shop.service;
 
 import jpa.jpa_shop.domain.member.Address;
 import jpa.jpa_shop.domain.member.Member;
-import jpa.jpa_shop.service.IFS.MemberServiceIFS;
-import jpa.jpa_shop.web.controller.dto.response.member.MemberResponseDto;
+import jpa.jpa_shop.web.dto.response.member.MemberResponseDto;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

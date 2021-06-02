@@ -1,8 +1,8 @@
 package jpa.jpa_shop.domain.member;
 
 import jpa.jpa_shop.domain.orders.Order;
-import jpa.jpa_shop.web.controller.dto.request.member.MemberUpdateRequestDto;
-import jpa.jpa_shop.web.controller.dto.response.member.MemberResponseDto;
+import jpa.jpa_shop.web.dto.request.member.MemberUpdateRequestDto;
+import jpa.jpa_shop.web.dto.response.member.MemberResponseDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

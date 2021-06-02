@@ -1,4 +1,4 @@
-package jpa.jpa_shop.web.controller.dto.response.orderItem;
+package jpa.jpa_shop.web.dto.response.orderItem;
 
 import lombok.Builder;
 import lombok.Getter;
