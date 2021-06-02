@@ -1,17 +1,14 @@
 package jpa.jpa_shop.web.controller.API;
 
 import jpa.jpa_shop.service.IFS.ItemServiceIFS;
-import jpa.jpa_shop.web.controller.dto.request.item.AlbumSaveRequestDto;
-import jpa.jpa_shop.web.controller.dto.request.item.BookSaveRequestDto;
-import jpa.jpa_shop.web.controller.dto.request.item.MovieSaveRequestDto;
-import jpa.jpa_shop.web.controller.dto.response.ListResponse;
-import jpa.jpa_shop.web.controller.dto.response.item.AlbumUpdateResponseDto;
-import jpa.jpa_shop.web.controller.dto.response.item.BookUpdateResponseDto;
-import jpa.jpa_shop.web.controller.dto.response.item.ItemListResponseDto;
-import jpa.jpa_shop.web.controller.dto.response.item.MovieUpdateResponseDto;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jpa.jpa_shop.web.dto.request.item.AlbumSaveRequestDto;
+import jpa.jpa_shop.web.dto.request.item.BookSaveRequestDto;
+import jpa.jpa_shop.web.dto.request.item.MovieSaveRequestDto;
+import jpa.jpa_shop.web.dto.response.ListResponse;
+import jpa.jpa_shop.web.dto.response.item.AlbumUpdateResponseDto;
+import jpa.jpa_shop.web.dto.response.item.BookUpdateResponseDto;
+import jpa.jpa_shop.web.dto.response.item.ItemListResponseDto;
+import jpa.jpa_shop.web.dto.response.item.MovieUpdateResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

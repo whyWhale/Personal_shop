@@ -1,6 +1,6 @@
 package jpa.jpa_shop.web.controller;
 
-import jpa.jpa_shop.web.controller.dto.request.member.MemberSaveRequestDto;
+import jpa.jpa_shop.web.dto.request.member.MemberSaveRequestDto;
 import jpa.jpa_shop.service.IFS.MemberServiceIFS;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

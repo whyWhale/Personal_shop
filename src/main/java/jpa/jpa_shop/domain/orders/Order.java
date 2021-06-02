@@ -4,7 +4,7 @@ import jpa.jpa_shop.domain.MiddleTable.OrderItem;
 import jpa.jpa_shop.domain.delivery.Delivery;
 import jpa.jpa_shop.domain.delivery.DeliveryStatus;
 import jpa.jpa_shop.domain.member.Member;
-import jpa.jpa_shop.web.controller.dto.response.order.OrderResponseDto;
+import jpa.jpa_shop.web.dto.response.order.OrderResponseDto;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

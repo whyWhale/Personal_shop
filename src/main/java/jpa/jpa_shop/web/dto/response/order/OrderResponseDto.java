@@ -1,4 +1,4 @@
-package jpa.jpa_shop.web.controller.dto.response.order;
+package jpa.jpa_shop.web.dto.response.order;
 
 import jpa.jpa_shop.domain.member.Address;
 import jpa.jpa_shop.domain.orders.OrderStatus;

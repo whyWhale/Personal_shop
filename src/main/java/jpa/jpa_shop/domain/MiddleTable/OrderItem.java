@@ -2,7 +2,7 @@ package jpa.jpa_shop.domain.MiddleTable;
 
 import jpa.jpa_shop.domain.item.Item;
 import jpa.jpa_shop.domain.orders.Order;
-import jpa.jpa_shop.web.controller.dto.response.orderItem.OrderItemResponseDto;
+import jpa.jpa_shop.web.dto.response.orderItem.OrderItemResponseDto;
 import lombok.*;
 
 import javax.persistence.*;

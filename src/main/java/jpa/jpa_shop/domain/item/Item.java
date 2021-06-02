@@ -2,7 +2,7 @@ package jpa.jpa_shop.domain.item;
 
 import jpa.jpa_shop.domain.category.Category;
 import jpa.jpa_shop.exception.NotEnoughStockException;
-import jpa.jpa_shop.web.controller.dto.response.item.ItemListResponseDto;
+import jpa.jpa_shop.web.dto.response.item.ItemListResponseDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;

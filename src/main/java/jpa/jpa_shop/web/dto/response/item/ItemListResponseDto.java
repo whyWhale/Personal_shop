@@ -1,10 +1,8 @@
-package jpa.jpa_shop.web.controller.dto.response.item;
+package jpa.jpa_shop.web.dto.response.item;
 
-import jpa.jpa_shop.domain.item.Item;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @NoArgsConstructor
 @Getter

@@ -1,4 +1,4 @@
-package jpa.jpa_shop.web.controller.dto.response.item;
+package jpa.jpa_shop.web.dto.response.item;
 
 import jpa.jpa_shop.domain.item.Book;
 import lombok.*;

@@ -1,4 +1,4 @@
-package jpa.jpa_shop.web.controller.dto.response.member;
+package jpa.jpa_shop.web.dto.response.member;
 
 import lombok.Builder;
 import lombok.Getter;

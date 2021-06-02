@@ -1,19 +1,13 @@
-package jpa.jpa_shop.web.controller.dto.request.member;
+package jpa.jpa_shop.web.dto.request.member;
 
 import jpa.jpa_shop.domain.member.Address;
 import jpa.jpa_shop.domain.member.Member;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
 
-@NoArgsConstructor
-@ToString
-@Getter
-public class MemberUpdateRequestDto {
-
+@Data
+public class MemberSaveRequestDto {
     @NotEmpty(message = "이름은 필수 입니다.")
     private String name;
 
@@ -26,13 +20,6 @@ public class MemberUpdateRequestDto {
     @NotEmpty(message = "지번은 필수 입니다.")
     private String zipcode;
 
-    @Builder
-    public MemberUpdateRequestDto(String name, String city, String street, String zipcode) {
-        this.name = name;
-        this.city = city;
-        this.street = street;
-        this.zipcode = zipcode;
-    }
 
     public Member toEntity()
     {
