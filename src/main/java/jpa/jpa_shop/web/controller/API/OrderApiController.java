@@ -66,7 +66,7 @@ public class OrderApiController {
     public List<OrderQueryDetailDto> orderQueryDetailDtos(@RequestParam(value = "offset",defaultValue = "0" ,required = false) int offset,
                                                           @RequestParam(value = "limit",defaultValue = "10", required = false) int limit)
     {
-        return orderQueryRepository.findDetailList(offset,limit);
+        return orderQueryRepository.ImproveFindDetailList(offset,limit);
     }
 
     @PostMapping("")
