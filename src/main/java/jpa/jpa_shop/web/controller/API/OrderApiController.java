@@ -5,10 +5,7 @@ import jpa.jpa_shop.domain.orders.Order;
 import jpa.jpa_shop.service.IFS.OrderServiceIFS;
 import jpa.jpa_shop.web.dto.request.order.OrderSaveRequestDto;
 import jpa.jpa_shop.web.dto.request.order.OrderSearchRequestDto;
-import jpa.jpa_shop.web.dto.response.order.OrderDetailResponseDto;
-import jpa.jpa_shop.web.dto.response.order.OrderQueryDetailDto;
-import jpa.jpa_shop.web.dto.response.order.OrderQueryDto;
-import jpa.jpa_shop.web.dto.response.order.OrderResponseDto;
+import jpa.jpa_shop.web.dto.response.order.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,6 +65,7 @@ public class OrderApiController {
     {
         return orderQueryRepository.ImproveFindDetailList(offset,limit);
     }
+
 
     @PostMapping("")
     public void createOrder(@Valid @RequestBody OrderSaveRequestDto orderSaveRequestDto)

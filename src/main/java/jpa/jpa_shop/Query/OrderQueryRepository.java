@@ -1,5 +1,6 @@
 package jpa.jpa_shop.Query;
 
+import jpa.jpa_shop.web.dto.response.order.OrderFlatDto;
 import jpa.jpa_shop.web.dto.response.order.OrderQueryDetailDto;
 import jpa.jpa_shop.web.dto.response.order.OrderQueryDto;
 import jpa.jpa_shop.web.dto.response.orderItem.OrderItemQueryDto;
@@ -48,6 +49,16 @@ public class OrderQueryRepository {
                         " join oi.item i" +
                         " where oi.order.id in :orderIds", OrderItemQueryDto.class)
                 .setParameter("orderIds", orderIds)
+                .getResultList();
+    }
+
+    // flatData
+    public List<OrderFlatDto> findAll_flatData()
+    {
+        return em.createQuery("select new jpa.jpa_shop.web.dto.response.order.OrderFlatDto(" +
+                "o.id, m.name, o.orderDate,o.status, d.address, i.name, oi.orderPrice, oi.count) from Order o " +
+                " join o.member m join o.delivery d" +
+                " join o.orderItems oi join oi.item i",OrderFlatDto.class)
                 .getResultList();
     }
 
