@@ -6,7 +6,7 @@ import jpa.jpa_shop.web.dto.response.item.ItemListResponseDto;
 import java.util.List;
 
 public interface ItemServiceIFS {
-    public void saveItem(Item item);
+    public Long saveItem(Item item);
 
     public List<ItemListResponseDto> findItems();
 
@@ -14,7 +14,7 @@ public interface ItemServiceIFS {
 
     public Item findById(Long itemId);
 
-    public void updateItem(Item item);
+    public Long updateItem(Item item);
 
     public void delete(Long id);
 }

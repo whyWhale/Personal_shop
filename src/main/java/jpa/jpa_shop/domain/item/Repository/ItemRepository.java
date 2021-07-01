@@ -12,7 +12,7 @@ import java.util.List;
 public class ItemRepository {
     private final EntityManager em;
 
-    public void save(Item item)
+    public Long save(Item item)
     {
         if(item.getId()==null)
         {
@@ -22,6 +22,8 @@ public class ItemRepository {
         {
             em.merge(item);
         }
+
+        return item.getId();
     }
 
     public Item findById(Long id)
