@@ -23,15 +23,16 @@ public class MemberService implements MemberServiceIFS {
     @Transactional
     public Long Join(Member member) {
         validDuplicateMember(member);
-        memberRepository.save(member);
-        return member.getId();
+        return memberRepository.save(member);
     }
 
     @Override
     @Transactional
-    public void update(Long id, MemberUpdateRequestDto requestDto) {
+    public Long update(Long id, MemberUpdateRequestDto requestDto) {
         validDuplicateMember(requestDto.toEntity());
-        memberRepository.findById(id).update(requestDto);
+        Member findMember = memberRepository.findById(id);
+        findMember.update(requestDto);
+        return findMember.getId();
     }
 
     // private 은 Tranactional 안걸림.

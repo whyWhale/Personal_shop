@@ -24,8 +24,8 @@ public class ItemService implements ItemServiceIFS {
 
     @Transactional
     @Override
-    public void saveItem(Item item) {
-        itemRepository.save(item);
+    public Long saveItem(Item item) {
+        return itemRepository.save(item);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class ItemService implements ItemServiceIFS {
 
     @Transactional
     @Override
-    public void updateItem(Item item) {
+    public Long updateItem(Item item) {
         Item entityItem = itemRepository.findById(item.getId());
         switch (entityItem.getClass().getSimpleName().toLowerCase())
         {
@@ -67,6 +67,7 @@ public class ItemService implements ItemServiceIFS {
                 album.update(item);
                 break;
         }
+        return entityItem.getId();
     }
 
     @Override
