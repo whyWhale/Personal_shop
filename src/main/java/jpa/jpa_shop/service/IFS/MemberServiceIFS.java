@@ -10,12 +10,12 @@ public interface MemberServiceIFS {
 
     public Long Join(Member member);
 
-    public void update(Long id, MemberUpdateRequestDto requestDto);
+    public Long update(Long id, MemberUpdateRequestDto requestDto);
 
     public List<MemberResponseDto> findAll();
 
     public MemberResponseDto findById(Long MemberId);
 
 
-    void delete(Long id);
+    public void delete(Long id);
 }
