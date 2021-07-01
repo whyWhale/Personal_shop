@@ -1,8 +1,9 @@
-package jpa.jpa_shop.service;
+package jpa.jpa_shop.service.UnitTest;
 
 import jpa.jpa_shop.domain.member.Address;
 import jpa.jpa_shop.domain.member.Member;
 import jpa.jpa_shop.domain.member.Repository.MemberRepository;
+import jpa.jpa_shop.service.MemberService;
 import jpa.jpa_shop.web.dto.request.member.MemberUpdateRequestDto;
 import jpa.jpa_shop.web.dto.response.member.MemberResponseDto;
 import org.assertj.core.api.Assertions;
@@ -14,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -25,7 +27,7 @@ import static org.mockito.Mockito.doNothing;
 
 @RunWith(MockitoJUnitRunner.class)
 @ExtendWith(MockitoExtension.class)
-public class unitUserServiceTest {
+public class unitMemberServiceTest {
     @InjectMocks
     private MemberService memberService;
 
@@ -43,18 +45,20 @@ public class unitUserServiceTest {
                 name("KIM").
                 address(Address.builder().city("Seoul").street("soso street").zipcode("59-1").build())
                 .build();
+        ReflectionTestUtils.setField(member,"id",1L);
 
         member2 = Member.builder().
                 name("PARK").
                 address(Address.builder().city("Incheon").street("gugu street").zipcode("12-1").build())
                 .build();
+        ReflectionTestUtils.setField(member2,"id",2L);
     }
 
     @Test
    public void MemberServiceJoin() {
        // given
-       given(memberRepository.save(any())).willReturn(1L);
-       given(memberRepository.findById(1L)).willReturn(member);
+       given(memberRepository.save(any())).willReturn(member.getId());
+       given(memberRepository.findById(member.getId())).willReturn(member);
 
        // when
        long memberId  = memberService.Join(member);
@@ -78,12 +82,12 @@ public class unitUserServiceTest {
        MemberUpdateRequestDto Dto = MemberUpdateRequestDto.builder().name(name).
                city(city).street(street).zipcode(zipcode).build();
 
-       given(memberRepository.findById(1L)).willReturn(member2);
+       given(memberRepository.findById(member2.getId())).willReturn(member2);
 
        // when
 
-       Long updateId = memberService.update(1L, Dto);
-       Member findMember = memberRepository.findById(1L);
+       Long updateId = memberService.update(member2.getId(), Dto);
+       Member findMember = memberRepository.findById(updateId);
 
        // then
        assertThat(findMember.getAddress().getCity()).isEqualTo(city);
@@ -113,10 +117,10 @@ public class unitUserServiceTest {
        // given
 
        // when
-        given(memberRepository.findById(1L)).willReturn(member);
+        given(memberRepository.findById(member.getId())).willReturn(member);
         doNothing().when(memberRepository).delete(any(Member.class));
        // then
-       memberService.delete(1L);
+       memberService.delete(member.getId());
    }
 
     private List<Member> getMembers() {
