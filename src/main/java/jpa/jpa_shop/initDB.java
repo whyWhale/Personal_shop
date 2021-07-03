@@ -1,3 +1,4 @@
+/*
 package jpa.jpa_shop;
 
 import jpa.jpa_shop.domain.MiddleTable.OrderItem;
@@ -108,3 +109,4 @@ public class initDB {
 }
 
 
+*/
