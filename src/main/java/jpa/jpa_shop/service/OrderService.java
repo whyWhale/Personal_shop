@@ -10,6 +10,7 @@ import jpa.jpa_shop.domain.member.Repository.MemberRepository;
 import jpa.jpa_shop.domain.orders.Order;
 import jpa.jpa_shop.domain.orders.Repository.OrderRepository;
 import jpa.jpa_shop.exception.NoEntity;
+import jpa.jpa_shop.exception.NotSearchId;
 import jpa.jpa_shop.service.IFS.OrderServiceIFS;
 import jpa.jpa_shop.web.dto.request.order.OrderSaveRequestDto;
 import jpa.jpa_shop.web.dto.request.order.OrderSearchRequestDto;
@@ -19,6 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import static jpa.jpa_shop.domain.item.QItem.item;
 
 
 @RequiredArgsConstructor
@@ -28,20 +32,24 @@ public class OrderService implements OrderServiceIFS {
     private final OrderRepository orderRepository;
     private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
+
     @Transactional
     @Override
     public Long order(Long memberId, Long itemId, int count) {
-        Member member=memberRepository.findById(memberId);
-        Item item = itemRepository.findById(itemId);
+        Member member = memberRepository.findById(memberId);
+        Optional<Item> optionalItem = itemRepository.findById(itemId);
+        if(optionalItem.isEmpty())
+            throw new NoEntity("No Item");
+        Item item =optionalItem.get();
 
-        Delivery delivery= Delivery.builder()
+        Delivery delivery = Delivery.builder()
                 .address(member.getAddress())
                 .status(DeliveryStatus.READY)
                 .build();
 
 
-        OrderItem orderItem= OrderItem.createOrderItem(item,item.getPrice(),count);
-        Order order=Order.createOrder(member,delivery,orderItem);
+        OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), count);
+        Order order = Order.createOrder(member, delivery, orderItem);
         orderRepository.save(order);
         return order.getId();
     }
@@ -52,12 +60,13 @@ public class OrderService implements OrderServiceIFS {
         Member member = memberRepository.findById(Long.parseLong(orderSaveRequestDto.getMemberId()));
         Long[] dtoItems = orderSaveRequestDto.getItems();
         int[] count = orderSaveRequestDto.getCount();
-        List<OrderItem> orderItems=new ArrayList<>();
+        List<OrderItem> orderItems = new ArrayList<>();
         for (int i = 0; i < dtoItems.length; i++) {
-            Item item = itemRepository.findById(dtoItems[i]);
-            if(item==null)
+            Optional<Item> optionalItem = itemRepository.findById(dtoItems[i]);
+            if(optionalItem.isEmpty())
                 throw new NoEntity("No Item");
-            orderItems.add(OrderItem.createOrderItem(item,item.getPrice(),count[i]));
+            Item item=optionalItem.get();
+            orderItems.add(OrderItem.createOrderItem(item, item.getPrice(), count[i]));
         }
 
         Delivery delivery = Delivery.builder()
@@ -72,7 +81,7 @@ public class OrderService implements OrderServiceIFS {
     @Transactional
     @Override
     public void cancelOrder(Long orderId) {
-        Order order=orderRepository.findById(orderId);
+        Order order = orderRepository.findById(orderId);
         order.cancel();
     }
 
@@ -88,7 +97,7 @@ public class OrderService implements OrderServiceIFS {
 
     @Override
     public List<Order> findWithMemberAndDelivery(int offset, int limit) {
-        return orderRepository.findWithMemberAndDelivery(offset,limit);
+        return orderRepository.findWithMemberAndDelivery(offset, limit);
     }
 
     @Override
