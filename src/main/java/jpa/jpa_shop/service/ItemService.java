@@ -36,9 +36,7 @@ public class ItemService implements ItemServiceIFS {
 
     @Override
     public List<ItemListResponseDto> findItems(Pageable pageable) {
-        Page<Item> all = itemRepository.findAll(pageable);
-        List<ItemListResponseDto> collect = all.stream().map(item -> item.toResponseDTO(item.getClass().getSimpleName().toLowerCase())).collect(Collectors.toList());
-        return collect;
+        return itemRepository.findAll(pageable).stream().map(item -> item.toResponseDTO(item.getClass().getSimpleName().toLowerCase())).collect(Collectors.toList());
     }
 
     @Override
@@ -50,7 +48,6 @@ public class ItemService implements ItemServiceIFS {
         Page<Item> pageTypeItem = itemRepository.findAll(booleanBuilder, pageable); //Querydsl 사용
 
         Function<Item, ItemListResponseDto> fn = (item -> item.toResponseDTO(item.getClass().getSimpleName().toLowerCase()));
-
         return new PageResultDTO<>(pageTypeItem, fn );
     }
 

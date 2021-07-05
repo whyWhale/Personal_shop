@@ -1,14 +1,10 @@
 package jpa.jpa_shop.web.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-@Builder
-@AllArgsConstructor
 @Data
 public class PageRequestDTO {
 
