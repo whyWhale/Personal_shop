@@ -19,10 +19,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -78,12 +80,12 @@ public class unitItemServiceTest {
     @Test
     public void ItemSave() {
         // given
-        given(itemRepository.save(movie)).willReturn(movie.getId());
-        given(itemRepository.findById(movie.getId())).willReturn((Item)movie);
-        given(itemRepository.save(book)).willReturn(book.getId());
-        given(itemRepository.findById(book.getId())).willReturn(book);
-        given(itemRepository.save(album)).willReturn(album.getId());
-        given(itemRepository.findById(album.getId())).willReturn(album);
+        given(itemRepository.save(movie).getId()).willReturn(movie.getId());
+        given(itemRepository.findById(movie.getId()).get()).willReturn((Item)movie);
+        given(itemRepository.save(book).getId()).willReturn(book.getId());
+        given(itemRepository.findById(book.getId()).get()).willReturn(book);
+        given(itemRepository.save(album).getId()).willReturn(album.getId());
+        given(itemRepository.findById(album.getId()).get()).willReturn(album);
 
         // when
         Long movieItemId = itemService.saveItem(movie);
@@ -105,9 +107,9 @@ public class unitItemServiceTest {
     public void ItemUpdate() {
 
         // given
-        given(itemRepository.findById(movie.getId())).willReturn(movie);
-        given(itemRepository.findById(book.getId())).willReturn(book);
-        given(itemRepository.findById(album.getId())).willReturn(album);
+        given(itemRepository.findById(movie.getId()).get()).willReturn(movie);
+        given(itemRepository.findById(book.getId()).get()).willReturn(book);
+        given(itemRepository.findById(album.getId()).get()).willReturn(album);
         int stockQuantity=30;
         int price1=8000;
         int price2= 45000;
@@ -142,13 +144,13 @@ public class unitItemServiceTest {
         Long bookId = itemService.updateItem(updateBook);
         Long albumId = itemService.updateItem(updateAlbum);
 
-        Item findMovie = itemRepository.findById(movieId);
-        Item findBook = itemRepository.findById(bookId);
-        Item findAlbum = itemRepository.findById(albumId);
+        Optional <Item> findMovie = itemRepository.findById(movieId);
+        Optional <Item> findBook = itemRepository.findById(bookId);
+        Optional <Item> findAlbum = itemRepository.findById(albumId);
         // then
-        assertThat(findMovie.getPrice()).isEqualTo(price1);
-        assertThat(findBook.getStockQuantity()).isEqualTo(stockQuantity);
-        assertThat(findAlbum.getPrice()).isEqualTo(price2);
+        assertThat(findMovie.get().getPrice()).isEqualTo(price1);
+        assertThat(findBook.get().getStockQuantity()).isEqualTo(stockQuantity);
+        assertThat(findAlbum.get().getPrice()).isEqualTo(price2);
     }
 
     @Test
@@ -157,6 +159,8 @@ public class unitItemServiceTest {
         List<Item> items = itemList();
         given(itemRepository.findAll()).willReturn(items);
         // when
+
+        Pageable.unpaged();
         List<ItemListResponseDto> findItems = itemService.findItems();
         ItemListResponseDto itemListResponseDto1 = findItems.get(0);
         ItemListResponseDto itemListResponseDto2 = findItems.get(1);
