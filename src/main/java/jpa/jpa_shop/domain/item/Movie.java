@@ -25,7 +25,7 @@ public class Movie extends Item{
         this.actor = actor;
     }
 
-    public MovieUpdateResponseDto toEntity()
+    public MovieUpdateResponseDto toDto()
     {
         return MovieUpdateResponseDto.builder()
                 .id(getId())

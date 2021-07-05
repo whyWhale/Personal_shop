@@ -97,7 +97,7 @@ public class ItemServiceTest {
     @Test
     public void paging_FindItem() {
         // given
-        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(1).size(10).build();
+        PageRequestDTO pageRequestDTO = new PageRequestDTO();
 
         // when
         PageResultDTO<ItemListResponseDto,Item> pageResultDTO= itemService.findItems(pageRequestDTO);

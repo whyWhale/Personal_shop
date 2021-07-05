@@ -3,8 +3,8 @@ package jpa.jpa_shop.web.controller;
 import jpa.jpa_shop.domain.item.Album;
 import jpa.jpa_shop.domain.item.Book;
 import jpa.jpa_shop.domain.item.Movie;
-import jpa.jpa_shop.exception.NotSearchId;
 import jpa.jpa_shop.service.IFS.ItemServiceIFS;
+import jpa.jpa_shop.web.dto.request.PageRequestDTO;
 import jpa.jpa_shop.web.dto.request.item.AlbumSaveRequestDto;
 import jpa.jpa_shop.web.dto.request.item.BookSaveRequestDto;
 import jpa.jpa_shop.web.dto.request.item.MovieSaveRequestDto;
@@ -13,7 +13,6 @@ import jpa.jpa_shop.web.dto.response.item.BookUpdateResponseDto;
 import jpa.jpa_shop.web.dto.response.item.MovieUpdateResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -62,9 +61,10 @@ public class ItemController {
 
     // list
     @GetMapping("/list")
-    public String list(Pageable pageable, Model model)
+    public String list(PageRequestDTO pageRequestDTO, Model model)
     {
-        model.addAttribute("items", itemService.findItems(pageable));
+        log.info("Paging ItemList {}",pageRequestDTO);
+        model.addAttribute("items", itemService.findItems(pageRequestDTO));
         return "item/itemList";
     }
 
@@ -72,33 +72,21 @@ public class ItemController {
     @GetMapping("/book/{itemId}")
     public String updateFormBook(@PathVariable("itemId") Long itemId,Model model){
         Book book=(Book) itemService.findById(itemId);
-        if(book==null)
-        {
-            throw new NotSearchId("존재하지 않는 상품입니다.");
-        }
-        model.addAttribute("updateBook",book.toEntity());
+        model.addAttribute("updateBook",book.toDto());
         return "item/update/updateBook";
     }
 
     @GetMapping("/movie/{itemId}")
     public String updateFormMovie(@PathVariable("itemId") Long itemId,Model model){
         Movie movie=(Movie) itemService.findById(itemId);
-        if(movie==null)
-        {
-            throw new NotSearchId("존재하지 않는 상품입니다.");
-        }
-        model.addAttribute("updateMovie",movie.toEntity());
+        model.addAttribute("updateMovie",movie.toDto());
         return "item/update/updateMovie";
     }
 
     @GetMapping("/album/{itemId}")
     public String updateFormAlbum(@PathVariable("itemId") Long itemId,Model model){
         Album album=(Album) itemService.findById(itemId);
-        if(album==null)
-        {
-            throw new NotSearchId("존재하지 않는 상품입니다.");
-        }
-        model.addAttribute("updateAlbum",album.toEntity());
+        model.addAttribute("updateAlbum",album.toDto());
         return "item/update/updateAlbum";
     }
 

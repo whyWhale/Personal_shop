@@ -16,7 +16,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="item : ${items}">
+            <tr th:each="item : ${items.dtoList}">
                 <td th:text="${item.id}"></td>
                 <td th:text="${item.name}"></td>
                 <td th:text="${item.price}"></td>
@@ -28,6 +28,19 @@
             </tr>
             </tbody>
         </table>
+        <ul class="pagination h-100 justify-content-center align-items-center">
+            <li class="page-item " th:if="${items.prev}">
+                <a class="page-link" th:href="@{/item/list(page= ${items.start -1})}"
+                   tabindex="-1">Previous</a></li>
+            <li th:class=" 'page-item ' + ${items.page == page?'active':''} " th:each="page: ${items.pageList}"><a
+                    class="page-link" th:href="@{/item/list(page = ${page})}"> [[${page}]] </a></li>
+
+
+            <li class="page-item" th:if="${items.next}"><a class="page-link"
+                                                           th:href="@{/item/list(page= ${items.end + 1})}">Next</a>
+            </li>
+        </ul>
+
     </div>
     <div th:replace="layout/footer :: footer"/>
 </div> <!-- /container -->

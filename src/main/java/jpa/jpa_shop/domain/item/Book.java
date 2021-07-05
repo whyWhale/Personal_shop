@@ -26,7 +26,7 @@ public class Book extends Item{
         this.isbn = isbn;
     }
 
-    public BookUpdateResponseDto toEntity()
+    public BookUpdateResponseDto toDto()
     {
         return BookUpdateResponseDto.builder()
                 .id(getId())
