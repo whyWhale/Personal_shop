@@ -23,7 +23,7 @@ public class Album extends Item{
         this.etc = etc;
     }
 
-    public AlbumUpdateResponseDto toEntity()
+    public AlbumUpdateResponseDto toDto()
     {
         return AlbumUpdateResponseDto.builder()
                 .id(getId())

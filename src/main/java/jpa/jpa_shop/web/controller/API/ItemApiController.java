@@ -10,6 +10,7 @@ import jpa.jpa_shop.web.dto.response.item.BookUpdateResponseDto;
 import jpa.jpa_shop.web.dto.response.item.ItemListResponseDto;
 import jpa.jpa_shop.web.dto.response.item.MovieUpdateResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -41,9 +42,9 @@ public class ItemApiController {
 
 
     @GetMapping("")
-    public ListResponse<ItemListResponseDto> read()
+    public ListResponse<ItemListResponseDto> read(Pageable pageable)
     {
-        List<ItemListResponseDto> items = itemService.findItems();
+        List<ItemListResponseDto> items = itemService.findItems(pageable);
         return new ListResponse (items.size(), items);
     }
 

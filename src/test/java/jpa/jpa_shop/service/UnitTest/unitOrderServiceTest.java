@@ -100,7 +100,7 @@ public class unitOrderServiceTest {
     public void OrderServiceCreateOrder() {
         // given
         given(memberRepository.findById(member.getId())).willReturn(member);
-        given(itemRepository.findById(item.getId())).willReturn(item);
+        given(itemRepository.findById(item.getId()).get()).willReturn(item);
         given(orderRepository.findById(order.getId())).willReturn(order);
         // when
         orderService.order(member.getId(), item.getId(), 3);
@@ -117,8 +117,8 @@ public class unitOrderServiceTest {
         // given
         OrderSaveRequestDto dto = OrderSaveRequestDto.builder().memberId("1").items(new Long[]{1L, 2L}).count(new int[]{1, 2}).build();
         given(memberRepository.findById(member.getId())).willReturn(member);
-        given(itemRepository.findById(item.getId())).willReturn(item);
-        given(itemRepository.findById(item2.getId())).willReturn(item2);
+        given(itemRepository.findById(item.getId()).get()).willReturn(item);
+        given(itemRepository.findById(item2.getId()).get()).willReturn(item2);
         given(orderRepository.findById(order2.getId())).willReturn(order2);
 
         // when
@@ -164,8 +164,8 @@ public class unitOrderServiceTest {
         List<Order> SearchOrders = orderService.SearchMemberNameAndOrderStatus(SearchDto);
         List<Order> SearchCancelOrders = orderService.SearchMemberNameAndOrderStatus(SearchCancelDto);
 
+        // then
         assertThat(orders.size()).isEqualTo(SearchOrders.size());
         assertThat(cancelOrders.size()).isEqualTo(SearchCancelOrders.size());
-        // then
     }
 }
