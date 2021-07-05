@@ -1,41 +1,8 @@
 # StockManagementSystem  
 
-Stack : SpringBoot, JPA,  Thymeleaf
-<br>
-
-`도메인 설계`
-
-<img src="https://user-images.githubusercontent.com/67587446/117131470-6f7ff800-addc-11eb-8645-cc97aca43634.jpg" width="200" height="200">
-
-
-기능 정의 
---
 ----
 
-`회원 기능`
-
-- 회원 가입
-- 회원 목록 조회
-
-`상품 기능`
-- 등록
-- 수정
-- 조회
-- 재고 증가,감소
-
-
-`주문 기능`
-- 주문 생성
-- 주문 내역 조회
-- 주문 취소
-
-`추가 기능`
-- 상품 재고관리
-- 상품 종류 : 책,앨범,영화
-    - ※ (상속) singleTable 전략으로 설정.
-- 상품 카테고리 별 분류
-- 검색 기능
-
+[description](https://www.notion.so/7ce999f3688145ad8ae1c65cd1e3f66b)
 
 
 
