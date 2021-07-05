@@ -3,6 +3,7 @@ package jpa.jpa_shop.domain.item;
 import jpa.jpa_shop.domain.category.Category;
 import jpa.jpa_shop.exception.NotEnoughStockException;
 import jpa.jpa_shop.web.dto.response.item.ItemListResponseDto;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
@@ -12,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Inheritance(strategy =InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "dtype")
 @DynamicUpdate
@@ -40,16 +41,6 @@ public abstract class Item {
     @ManyToMany(mappedBy = "items")
     private List<Category> categorys=new LinkedList<>();
 
-    public void addStock(int quantity)
-    {
-        this.stockQuantity+=quantity;
-    }
-    public void removeStock(int quantity) {
-        int restStockQuantity = this.stockQuantity - quantity;
-        if(restStockQuantity<0)
-            throw new NotEnoughStockException("Stock is less than 0!");
-        this.stockQuantity=restStockQuantity;
-    }
 
     public ItemListResponseDto toResponseDTO(String type)
     {
@@ -60,6 +51,17 @@ public abstract class Item {
                 .stockQuantity(stockQuantity)
                 .type(type)
                 .build();
+    }
+
+    public void addStock(int quantity)
+    {
+        this.stockQuantity+=quantity;
+    }
+    public void removeStock(int quantity) {
+        int restStockQuantity = this.stockQuantity - quantity;
+        if(restStockQuantity<0)
+            throw new NotEnoughStockException("Stock is less than 0!");
+        this.stockQuantity=restStockQuantity;
     }
 
     public abstract void update(Item item);

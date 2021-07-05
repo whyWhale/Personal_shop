@@ -3,9 +3,11 @@ package jpa.jpa_shop.web.dto.response.item;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@NoArgsConstructor
 @Getter
+@ToString
+@NoArgsConstructor
 public class ItemListResponseDto {
     private Long id;
     private String name;

@@ -13,6 +13,7 @@ import jpa.jpa_shop.web.dto.response.item.BookUpdateResponseDto;
 import jpa.jpa_shop.web.dto.response.item.MovieUpdateResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -61,9 +62,9 @@ public class ItemController {
 
     // list
     @GetMapping("/list")
-    public String list(Model model)
+    public String list(Pageable pageable, Model model)
     {
-        model.addAttribute("items", itemService.findItems());
+        model.addAttribute("items", itemService.findItems(pageable));
         return "item/itemList";
     }
 

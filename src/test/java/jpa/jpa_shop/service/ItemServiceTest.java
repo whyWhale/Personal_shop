@@ -2,14 +2,18 @@ package jpa.jpa_shop.service;
 
 import jpa.jpa_shop.domain.item.Album;
 import jpa.jpa_shop.domain.item.Book;
+import jpa.jpa_shop.domain.item.Item;
 import jpa.jpa_shop.domain.item.Movie;
 import jpa.jpa_shop.service.IFS.ItemServiceIFS;
+import jpa.jpa_shop.web.dto.request.PageRequestDTO;
+import jpa.jpa_shop.web.dto.request.PageResultDTO;
 import jpa.jpa_shop.web.dto.response.item.ItemListResponseDto;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +28,7 @@ public class ItemServiceTest {
     ItemServiceIFS itemService;
 
     @Test
-    public void SaveItemAndFindById () throws Exception{
+    public void SaveItemAndFindById() throws Exception {
         //given
         Movie movie = Movie.builder()
                 .actor("송강호")
@@ -55,9 +59,9 @@ public class ItemServiceTest {
         Assertions.assertThat(album.getPrice()).isEqualTo(itemService.findById(album.getId()).getPrice());
 
     }
-    
+
     @Test
-    public void findItems() throws Exception{
+    public void findItems() throws Exception {
         //given
         Movie movie = Movie.builder()
                 .actor("송강호")
@@ -82,11 +86,28 @@ public class ItemServiceTest {
         itemService.saveItem(movie);
         itemService.saveItem(book);
         itemService.saveItem(album);
-        List<ItemListResponseDto> items = itemService.findItems();
+        PageRequest of = PageRequest.of(0, 10);
+        List<ItemListResponseDto> items = itemService.findItems(of);
         //then
         Assertions.assertThat(items).isNotNull();
-        Assertions.assertThat(items.size()).isEqualTo(3);
+        Assertions.assertThat(items.size()).isEqualTo(10);
     }
     
+    
+    @Test
+    public void paging_FindItem() {
+        // given
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(1).size(10).build();
+
+        // when
+        PageResultDTO<ItemListResponseDto,Item> pageResultDTO= itemService.findItems(pageRequestDTO);
+        // then
+        for (ItemListResponseDto itemListResponseDto : pageResultDTO.getDtoList()) {
+            System.out.println(itemListResponseDto);
+        }
+    }
+
+   
+
 
 }
