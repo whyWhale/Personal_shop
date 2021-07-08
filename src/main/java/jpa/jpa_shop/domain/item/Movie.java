@@ -4,11 +4,13 @@ import jpa.jpa_shop.web.dto.response.item.MovieUpdateResponseDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 @Getter
+@ToString
 @DiscriminatorValue("M")
 @NoArgsConstructor
 @DynamicUpdate
