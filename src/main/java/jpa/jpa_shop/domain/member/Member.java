@@ -1,5 +1,6 @@
 package jpa.jpa_shop.domain.member;
 
+import jpa.jpa_shop.domain.BaseEntity;
 import jpa.jpa_shop.domain.orders.Order;
 import jpa.jpa_shop.web.dto.request.member.MemberUpdateRequestDto;
 import jpa.jpa_shop.web.dto.response.member.MemberResponseDto;
@@ -16,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @DynamicUpdate
 @Entity
-public class Member {
+public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")

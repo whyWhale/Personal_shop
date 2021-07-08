@@ -1,5 +1,6 @@
 package jpa.jpa_shop.domain.item;
 
+import jpa.jpa_shop.domain.BaseEntity;
 import jpa.jpa_shop.domain.category.Category;
 import jpa.jpa_shop.exception.NotEnoughStockException;
 import jpa.jpa_shop.web.dto.response.item.ItemListResponseDto;
@@ -18,7 +19,7 @@ import java.util.List;
 @DiscriminatorColumn(name = "dtype")
 @DynamicUpdate
 @Entity
-public abstract class Item {
+public abstract class Item extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id")
@@ -27,11 +28,13 @@ public abstract class Item {
     private String name;
     private int price;
     private int stockQuantity;
+    private boolean display;
 
     public Item(String name, int price, int stockQuantity) {
         this.name = name;
         this.price = price;
         this.stockQuantity = stockQuantity;
+        this.display=true;
     }
 
     public void setId(Long id) {
@@ -61,6 +64,8 @@ public abstract class Item {
         int restStockQuantity = this.stockQuantity - quantity;
         if(restStockQuantity<0)
             throw new NotEnoughStockException("Stock is less than 0!");
+        if(restStockQuantity==0)
+            this.display=false;
         this.stockQuantity=restStockQuantity;
     }
 
