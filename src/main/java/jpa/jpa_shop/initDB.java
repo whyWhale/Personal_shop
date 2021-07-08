@@ -1,4 +1,3 @@
-/*
 package jpa.jpa_shop;
 
 import jpa.jpa_shop.domain.MiddleTable.OrderItem;
@@ -25,21 +24,19 @@ public class initDB {
     @PostConstruct
     public void init() {
         initService.dbInit();
-        initService.dbInit2();
     }
+
     @Component
     @Transactional
     @RequiredArgsConstructor
-    static class InitService{
+    static class InitService {
         private final EntityManager em;
-        public void dbInit()
-        {
+
+        public void dbInit() {
             Member member = Member.builder().
-                    name("PARK").
+                    name("KIM").
                     address(Address.builder().city("Seoul").street("soso street").zipcode("59-1").build())
                     .build();
-
-
             em.persist(member);
 
             Movie movie = Movie.builder()
@@ -49,6 +46,7 @@ public class initDB {
                     .price(10000)
                     .stockQuantity(10)
                     .build();
+            em.persist(movie);
 
             Book book = Book.builder()
                     .author("구종만")
@@ -58,8 +56,31 @@ public class initDB {
                     .stockQuantity(10)
                     .build();
 
-            em.persist(movie);
             em.persist(book);
+            for (int i = 1; i < 1000; i++) {
+                member = Member.builder().
+                        name("KIM" + i).
+                        address(Address.builder().city("Seoul").street("soso street").zipcode("59-1").build())
+                        .build();
+                em.persist(member);
+                movie = Movie.builder()
+                        .actor("송강호"+i)
+                        .director("봉준호"+i)
+                        .name("괴물"+i)
+                        .price(10000)
+                        .stockQuantity(10)
+                        .build();
+                em.persist(movie);
+
+                 book = Book.builder()
+                        .author("구종만"+i)
+                        .isbn("131-12-1113NQU-123"+i)
+                        .name("알고리즘 문제 해결 전략"+i)
+                        .price(33000)
+                        .stockQuantity(10)
+                        .build();
+                 em.persist(book);
+            }
 
             OrderItem orderItem = OrderItem.createOrderItem(book, book.getPrice(), 2);
             OrderItem orderItem2 = OrderItem.createOrderItem(movie, movie.getPrice(), 1);
@@ -69,44 +90,7 @@ public class initDB {
             em.persist(order);
         }
 
-        public void dbInit2()
-        {
-            Member member = Member.builder().
-                    name("PARK").
-                    address(Address.builder().city("Seoul").street("gogo street").zipcode("11-1").build())
-                    .build();
-
-            em.persist(member);
-
-            Album album = Album.builder()
-                    .artist("IU")
-                    .name("밤 편지")
-                    .price(55000)
-                    .stockQuantity(10)
-                    .etc("작곡,작사 : IU")
-                    .build();
-
-            Album album2 = Album.builder()
-                    .artist("IU")
-                    .name("라일락")
-                    .price(65000)
-                    .stockQuantity(10)
-                    .etc("작곡,작사 : IU")
-                    .build();
-
-            em.persist(album);
-            em.persist(album2);
-
-            OrderItem orderItem=OrderItem.createOrderItem(album,album.getPrice(),5);
-            OrderItem orderItem2=OrderItem.createOrderItem(album2,album2.getPrice(),2);
-            Order order = Order.createOrder(member,
-                    Delivery.builder().address(member.getAddress()).status(DeliveryStatus.READY).build(),
-                    orderItem, orderItem2);
-
-            em.persist(order);
-        }
     }
 }
 
 
-*/
