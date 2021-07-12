@@ -1,6 +1,7 @@
 package jpa.jpa_shop.domain.item;
 
 import jpa.jpa_shop.domain.BaseEntity;
+import jpa.jpa_shop.domain.MiddleTable.ItemCategory;
 import jpa.jpa_shop.domain.category.Category;
 import jpa.jpa_shop.exception.NotEnoughStockException;
 import jpa.jpa_shop.web.dto.response.item.ItemListResponseDto;
@@ -21,7 +22,7 @@ import java.util.List;
 @Entity
 public abstract class Item extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name = "item_id")
     private Long id;
 
@@ -41,8 +42,8 @@ public abstract class Item extends BaseEntity {
         this.id = id;
     }
 
-    @ManyToMany(mappedBy = "items")
-    private List<Category> categorys=new LinkedList<>();
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    private List<ItemCategory> itemCategories=new LinkedList<>();
 
 
     public ItemListResponseDto toResponseDTO(String type)

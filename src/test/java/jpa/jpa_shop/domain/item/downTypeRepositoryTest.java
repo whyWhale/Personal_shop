@@ -1,10 +1,7 @@
-package jpa.jpa_shop.domain.item.Repository;
+package jpa.jpa_shop.domain.item;
 
-import jpa.jpa_shop.domain.item.Album;
-import jpa.jpa_shop.domain.item.Book;
-import jpa.jpa_shop.domain.item.Movie;
+import jpa.jpa_shop.domain.item.Repository.BookRepository;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

@@ -1,15 +1,21 @@
 package jpa.jpa_shop.domain.category;
 
+import jpa.jpa_shop.domain.BaseEntity;
+import jpa.jpa_shop.domain.MiddleTable.ItemCategory;
 import jpa.jpa_shop.domain.item.Item;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 @Entity
-@Data
-public class Category {
+@Setter(AccessLevel.PRIVATE)
+@Getter
+@ToString(exclude = {"child"})
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Category extends BaseEntity {
     @Id
     @GeneratedValue
     @Column(name = "category_id")
@@ -17,11 +23,13 @@ public class Category {
 
     private String name;
 
-    @ManyToMany
-    @JoinTable(name = "category_item",
-    joinColumns = @JoinColumn(name = "category_id"),
-    inverseJoinColumns = @JoinColumn(name = "item_id"))
-    private List<Item> items=new LinkedList<>();
+    @Builder
+    public Category(String name) {
+        this.name = name;
+    }
+
+    @OneToMany(mappedBy = "category")
+    private List<ItemCategory> itemCategories=new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
