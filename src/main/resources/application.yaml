@@ -24,7 +24,6 @@ spring :
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
-  mandatory-file-encoding: UTF-8
 
 logging:
   level:
