@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -63,34 +64,30 @@ public class ItemService implements ItemServiceIFS {
 
     @Override
     public Item findById(Long itemId) {
-        Optional<Item> item = itemRepository.findById(itemId);
-        if(item.isEmpty())
-        {
-            throw new NotSearchId("존재하지 않는 상품입니다.");
-        }
-        return item.get();
+        return itemRepository.findById(itemId).orElseThrow(NoEntity::new);
     }
 
     @Transactional
     @Override
     public Long updateItem(Item item) {
-        Optional<Item>entityItem = itemRepository.findById(item.getId());
+        Item entityItem = itemRepository.findById(item.getId()).orElseThrow(NoEntity::new);
+        System.out.println(entityItem.getClass().getSimpleName().toLowerCase());
         switch (entityItem.getClass().getSimpleName().toLowerCase())
         {
             case "movie":
-                Movie movie = (Movie) entityItem.get();
+                Movie movie = (Movie) entityItem;
                 movie.update(item);
                 break;
             case "book":
-                Book book = (Book) entityItem.get();
+                Book book = (Book) entityItem;
                 book.update(item);
                 break;
             case "album":
-                Album album = (Album) entityItem.get();
+                Album album = (Album) entityItem;
                 album.update(item);
                 break;
         }
-        return entityItem.get().getId();
+        return entityItem.getId();
     }
 
     @Override

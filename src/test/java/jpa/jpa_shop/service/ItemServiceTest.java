@@ -90,7 +90,7 @@ public class ItemServiceTest {
         List<ItemListResponseDto> items = itemService.findItems(of);
         //then
         Assertions.assertThat(items).isNotNull();
-        Assertions.assertThat(items.size()).isEqualTo(10);
+        Assertions.assertThat(items.size()).isEqualTo(3);
     }
     
     
