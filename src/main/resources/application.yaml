@@ -1,9 +1,13 @@
 
 server:
-  port: 8081
+  port: 8083
 spring :
-  profiles:
-    active: release
+  config:
+    activate:
+      on-profile: release
+#  profiles:
+##    active: release
+#    include: release
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
