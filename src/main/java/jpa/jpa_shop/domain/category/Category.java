@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 public class Category {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     @Column(name = "category_id")
     private Long id;
 
