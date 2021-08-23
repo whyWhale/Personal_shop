@@ -14,8 +14,7 @@ import javax.persistence.*;
 @Entity
 public class Delivery {
     @Id
-    @GeneratedValue
-    @Column(name = "delivery_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @OneToOne(mappedBy = "delivery", fetch = FetchType.LAZY)
