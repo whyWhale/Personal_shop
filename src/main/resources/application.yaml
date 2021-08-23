@@ -2,24 +2,20 @@ server:
   port: 8081
 spring :
   datasource :
-    url :  jdbc:h2:tcp://localhost/~/jpashop
+    url :  jdbc:h2:tcp://localhost/~/jpashop;MODE=MYSQL
     username :  sa
     password :
     driver-class-name : org.h2.Driver
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://${mysql_address}:3306/sample?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=true
-#    username: ${mysql_username}
-#    password: ${mysql_password}
 
   jpa:
     hibernate:
       ddl-auto: create
     properties:
-      hibernate :
-#        show_sql : true
-        format_sql : true
-        default_batch_fetch_size : 100 # in query의 갯수.(데이터 1000개면 10번의 쿼리.)
+      hibernate.dialect: org.hibernate.dialect.MySQL57Dialect
+      hibernate.dialect.storage_engin: innodb
+      show_sql: true
+      format_sql: true
+      default_batch_fetch_size : 100 # in query의 갯수.(데이터 1000개면 10번의 쿼리.)
 
   thymeleaf:
     prefix: classpath:/templates/
