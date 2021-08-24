@@ -13,6 +13,9 @@ cache:
     - '$HOME/.gradle'
 script: "./gradlew clean build"
 
+before_install:
+  - chmod +x gradlew
+
 # CI mail 알림
 notifications:
   email:
