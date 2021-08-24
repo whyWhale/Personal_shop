@@ -15,6 +15,7 @@ script: "./gradlew clean build"
 
 before_install:
   - chmod +x gradlew
+  - chmode +x appspec.yml
 
 before_deploy:
   - mkdir -p before-deploy
