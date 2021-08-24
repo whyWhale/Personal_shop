@@ -16,12 +16,6 @@ script: "./gradlew clean build"
 before_install:
   - chmod +x gradlew
 
-# CI mail 알림
-notifications:
-  email:
-    recipients:
-      - soccer_by@naver.com
-
 before_deploy:
   - zip -r springboot-whywhale *
   - mkdir -p deploy
@@ -36,3 +30,20 @@ deploy:
     acl: private
     local_dir: deploy
     wait-until-deployed: true
+
+  - provider: CODEDEPLOY
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: springboot-whywhale-build
+    key: springboot-whywhale.zip
+    bundle_type: zip
+    application: springboot-whywhale
+    deployment_group: springboot-whywhale-group
+    region: ap-northeast-2
+    wait-until-deployed: true
+
+# CI mail 알림
+notifications:
+  email:
+    recipients:
+      - soccer_by@naver.com
