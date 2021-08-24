@@ -23,7 +23,7 @@ notifications:
       - soccer_by@naver.com
 
 before_deploy:
-  - zip -r springboot-whywhale StockManagementSystem
+  - zip -r springboot-whywhale *
   - mkdir -p deploy
   - mv springboot-whywhale.zip deploy/springboot-whywhale.zip
 
