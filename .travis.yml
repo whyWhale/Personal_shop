@@ -21,3 +21,18 @@ notifications:
   email:
     recipients:
       - soccer_by@naver.com
+
+before_deploy:
+  - zip -r springboot-whywhale StockManagementSystem
+  - mkdir -p deploy
+  - mv springboot-whywhale.zip deploy/springboot-whywhale.zip
+
+deploy:
+  - provider: S3
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: springboot-whywhale-build
+    skip_cleanup: true
+    acl: private
+    local_dir: deploy
+    wait-until-deployed: true
