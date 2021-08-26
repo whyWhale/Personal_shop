@@ -38,7 +38,7 @@ deploy:
     key: springboot-whywhale2.zip
     bundle_type: zip
     application: springboot-whywhale2
-    deployment_group: springboot-whywhale-group
+    deployment_group: springboot-whywhale2-group
     region: ap-northeast-2
     wait-until-deployed: true
 
