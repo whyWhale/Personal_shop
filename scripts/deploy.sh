@@ -1,7 +1,7 @@
 #!/bin/bash
 
 REPOSITORY=/home/ec2-user/app/step2
-PROJECT_NAME=StockManagementSystem
+PROJECT_NAME=springboot-whywhale2
 
 echo "> build file copy"
 
@@ -9,7 +9,7 @@ cp $REPOSITORY/zip/*.jar $REPOSITORY/
 
 echo "> 현재 구동 중인 애플리케이션 PID Check! "
 
-CURRENT_PID=$(pgrep -fl StockManagementSystem | grep jar | awk '{print $1}')
+CURRENT_PID=$(pgrep -fl springboot-whywhale2 | grep jar | awk '{print $1}')
 
 echo "> 현재 구동 중인 애플리케이션 PID = : $CURRENT_PID "
 
@@ -33,7 +33,7 @@ chmod +x $JAR_NAME
 echo "> $JAR_NAME 실행 !"
 
 nohup java -jar \
-              -Dspring.config.location=classpath:/application.yaml,/home/ec2-user/app/step1/application-release.yaml \
+              -Dspring.config.location=classpath:/application.yaml,/home/ec2-user/app/application-release.yaml \
               $JAR_NAME > $REPOSITORY/nohup.out 2>&1 &
 
 
