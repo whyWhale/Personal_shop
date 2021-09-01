@@ -37,14 +37,19 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
+bootRun {
+    String activeProfile = System.properties['spring.profiles.active']
+    systemProperty "spring.profiles.active", activeProfile
+}
+
 test {
 }
-def querydslDir = "$buildDir/generated/querydsl"
+def querydslSrcDir = "src/generated/querydsl"
 
 querydsl {
     library ="com.querydsl:querydsl-apt"
     jpa = true
-    querydslSourcesDir = querydslDir
+    querydslSourcesDir = querydslSrcDir
 }
 
 compileQuerydsl {
@@ -52,7 +57,7 @@ compileQuerydsl {
 }
 
 sourceSets {
-    main.java.srcDir querydslDir
+    main.java.srcDir querydslSrcDir
 }
 
 configurations {
@@ -60,6 +65,6 @@ configurations {
 }
 
 tasks.withType(JavaCompile) {
-            options.annotationProcessorGeneratedSourcesDirectory=file(querydslDir)
-        }
+    options.annotationProcessorGeneratedSourcesDirectory = file(querydslSrcDir)
+}
 
