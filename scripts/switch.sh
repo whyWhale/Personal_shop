@@ -1,4 +1,4 @@
-#!/bin/bash/env bash
+#!/usr/bin/env bash
 
 ABSPATH=$(readlink -f $0)
 ABSDIR=$(dirname $ABSPATH)
@@ -13,5 +13,4 @@ function switch_proxy() {
 
   echo "> 엔진엑스 ReLoad~ "
   sudo service nginx reload
-
 }
