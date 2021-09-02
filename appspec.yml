@@ -13,19 +13,19 @@ permissions:
 
 
 hooks:
-#  ApplicationStart:
-#    - location: deploy.sh
+  ApplicationStart:
+    - location: deploy.sh
+      timeout: 60
+      runas: ec2-user
+#  AfterInstall:
+#    - location: stop.sh # 엔진엑스 스프링 부트 종료
 #      timeout: 60
 #      runas: ec2-user
-  AfterInstall:
-    - location: stop.sh # 엔진엑스 스프링 부트 종료
-      timeout: 60
-      runas: ec2-user
-  ApplicationStart:
-    - location: start.sh # 새로운 Port로 스프링부트 exe
-      timeout: 60
-      runas: ec2-user
-  ValidateService:
-    - location: health.sh # 새 스프링부트 정상 실행 여부 확인
-      timeout: 60
-      runas: ec2-user
+#  ApplicationStart:
+#    - location: start.sh # 새로운 Port로 스프링부트 exe
+#      timeout: 60
+#      runas: ec2-user
+#  ValidateService:
+#    - location: health.sh # 새 스프링부트 정상 실행 여부 확인
+#      timeout: 60
+#      runas: ec2-user
