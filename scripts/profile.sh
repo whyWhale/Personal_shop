@@ -4,6 +4,8 @@
 
 function find_idle_profile() {
   RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/profile)
+    echo "find_idle_profile method exec !"
+    echo "응답 코드 : {RESPONSE_CODE}"
 
   if [ ${RESPONSE_CODE} -ge 400 ]
 
@@ -30,8 +32,8 @@ function find_idle_port() {
 
     if [ ${IDLE_PROFILE} == real1 ]
     then
-      echo "8081 PORT NUMBER"
+      echo "8081"
     else
-      echo "8082 PORT NUMBER"
+      echo "8082"
     fi
 }
