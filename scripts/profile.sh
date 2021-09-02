@@ -20,7 +20,9 @@ function find_idle_profile() {
     IDLE_PROFILE=real2;
   else
     IDLE_PROFILE=real1
-  fi 
+  fi
+
+  echo "${IDLE_PROFILE}"
 }
 
 function find_idle_port() {
