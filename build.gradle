@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.4.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+    id "io.franzbecker.gradle-lombok" version "3.0.0"
     id 'java'
 }
 
@@ -44,7 +45,7 @@ bootRun {
 
 test {
 }
-def querydslSrcDir = "src/main/generated"
+def querydslSrcDir = "src/generated/querydsl"
 
 querydsl {
     library ="com.querydsl:querydsl-apt"
