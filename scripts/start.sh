@@ -4,6 +4,7 @@ ABSPATH=$(readlink -f $0)
 ABSDIR=$(dirname $ABSPATH)
 source ${ABSDIR}/profile.sh
 
+echo ">> profile.sh variable check : <놀고있는 포트번호> $IDLE_PROFILE "
 REPOSITORY=/home/ec2-user/app/step3
 PROJECT_NAME=springboot-whywhale2
 
