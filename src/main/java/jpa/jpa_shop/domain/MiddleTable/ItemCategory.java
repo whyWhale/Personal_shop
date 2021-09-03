@@ -7,7 +7,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.jdo.annotations.Join;
 import javax.persistence.*;
 
 @Table(name = "item_category")
