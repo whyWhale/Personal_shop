@@ -1,5 +1,7 @@
 package jpa.jpa_shop.domain.item;
 
+import jpa.jpa_shop.domain.BaseEntity;
+import jpa.jpa_shop.domain.MiddleTable.ItemCategory;
 import jpa.jpa_shop.domain.category.Category;
 import jpa.jpa_shop.exception.NotEnoughStockException;
 import jpa.jpa_shop.web.dto.response.item.ItemListResponseDto;
@@ -18,28 +20,30 @@ import java.util.List;
 @DiscriminatorColumn(name = "dtype")
 @DynamicUpdate
 @Entity
-public abstract class Item {
+public abstract class Item extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name = "item_id")
     private Long id;
 
     private String name;
     private int price;
     private int stockQuantity;
+    private boolean display;
 
     public Item(String name, int price, int stockQuantity) {
         this.name = name;
         this.price = price;
         this.stockQuantity = stockQuantity;
+        this.display=true;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    @ManyToMany(mappedBy = "items")
-    private List<Category> categorys=new LinkedList<>();
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    private List<ItemCategory> itemCategories=new LinkedList<>();
 
 
     public ItemListResponseDto toResponseDTO(String type)
@@ -61,6 +65,8 @@ public abstract class Item {
         int restStockQuantity = this.stockQuantity - quantity;
         if(restStockQuantity<0)
             throw new NotEnoughStockException("Stock is less than 0!");
+        if(restStockQuantity==0)
+            this.display=false;
         this.stockQuantity=restStockQuantity;
     }
 

@@ -15,7 +15,7 @@ public interface ItemServiceIFS {
 
     public List<ItemListResponseDto> findItems();
 
-    public PageResultDTO<ItemListResponseDto, Item> findItems(PageRequestDTO requestDTO);
+    public PageResultDTO<ItemListResponseDto, ? extends Item> findItems(PageRequestDTO requestDTO);
 
     public List<Item> findItemsToOrder();
 

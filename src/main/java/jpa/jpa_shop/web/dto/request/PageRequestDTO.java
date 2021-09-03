@@ -10,8 +10,8 @@ public class PageRequestDTO {
 
     private int page;
     private int size;
+    private String name;
     private String type;
-    private String keyword;
 
 
     public PageRequestDTO(){
