@@ -70,9 +70,10 @@ public class OrderRepository {
     // queryDsl
     public List<Order> findAll(OrderSearchRequestDto orderSearch)
     {
-        QOrder order=QOrder.order;
-        QMember member=QMember.member;
-        QDelivery delivery=QDelivery.delivery;
+
+        QOrder order= QOrder.order;
+        QMember member= QMember.member;
+        QDelivery delivery= QDelivery.delivery;
 
         JPAQueryFactory query=new JPAQueryFactory(em);
 

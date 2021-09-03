@@ -2,11 +2,12 @@ plugins {
     id 'org.springframework.boot' version '2.4.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+    id "io.franzbecker.gradle-lombok" version "3.0.0"
     id 'java'
 }
 
 group = 'jpa'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1-SNAPSHOT-'+new Date().format("yyyyMMddH-Hmmss")
 sourceCompatibility = '11'
 
 configurations {
@@ -20,6 +21,7 @@ repositories {
 }
 
 dependencies {
+
     // web
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -30,39 +32,57 @@ dependencies {
     implementation 'com.querydsl:querydsl-jpa'
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java'
+    compile 'org.mariadb.jdbc:mariadb-java-client'
+    
+    // DB log
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6'
+    
     //devtool
     implementation 'org.springframework.boot:spring-boot-devtools'
+    
     // Aop
     implementation 'org.springframework.boot:spring-boot-starter-aop'
+    
     // Test
     compile 'junit:junit:4.12'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    
     //swagger
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+    
     //lombok
     annotationProcessor 'org.projectlombok:lombok'
 }
 
-// queryDsl settings
+bootRun {
+    String activeProfile = System.properties['spring.profiles.active']
+    systemProperty "spring.profiles.active", activeProfile
+}
+
 test {
 }
-def querydslDir = "$buildDir/generated/querydsl"
+def querydslSrcDir = "src/generated/querydsl"
 
 querydsl {
+    library ="com.querydsl:querydsl-apt"
     jpa = true
-    querydslSourcesDir = querydslDir
+    querydslSourcesDir = querydslSrcDir
+}
+
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
 }
 
 sourceSets {
-    main.java.srcDir querydslDir
+    main.java.srcDir querydslSrcDir
 }
 
 configurations {
     querydsl.extendsFrom compileClasspath
 }
 
-compileQuerydsl {
-    options.annotationProcessorPath = configurations.querydsl
+tasks.withType(JavaCompile) {
+    options.annotationProcessorGeneratedSourcesDirectory = file(querydslSrcDir)
 }
+

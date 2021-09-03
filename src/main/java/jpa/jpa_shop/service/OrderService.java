@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static jpa.jpa_shop.domain.item.QItem.item;
 
 
 @RequiredArgsConstructor

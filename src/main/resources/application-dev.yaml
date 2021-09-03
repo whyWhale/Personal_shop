@@ -1,0 +1,20 @@
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url :  jdbc:h2:tcp://localhost/~/jpashop;MODE=MYSQL
+    username :  sa
+    password :
+    driver-class-name : org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate.dialect: org.hibernate.dialect.MySQL57Dialect
+      hibernate.dialect.storage_engin: innodb
+#      show_sql: true
+      format_sql: true
+      default_batch_fetch_size : 100 # in query의 갯수.(데이터 1000개면 10번의 쿼리.)

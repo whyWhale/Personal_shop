@@ -92,8 +92,10 @@ public class ItemServiceTest {
         PageRequest of = PageRequest.of(0, 10);
         List<ItemListResponseDto> items = itemService.findItems(of);
         //then
-        assertThat(items).isNotNull();
-        assertThat(items.size()).isEqualTo(10);
+
+        Assertions.assertThat(items).isNotNull();
+        Assertions.assertThat(items.size()).isEqualTo(3);
+
     }
 
 

@@ -6,6 +6,7 @@ import jpa.jpa_shop.domain.item.Book;
 import jpa.jpa_shop.domain.item.Item;
 import jpa.jpa_shop.domain.item.Movie;
 import jpa.jpa_shop.domain.item.Repository.ItemRepository;
+import jpa.jpa_shop.exception.NoEntity;
 import jpa.jpa_shop.service.ItemService;
 import jpa.jpa_shop.web.dto.response.item.AlbumUpdateResponseDto;
 import jpa.jpa_shop.web.dto.response.item.BookUpdateResponseDto;
@@ -80,12 +81,12 @@ public class unitItemServiceTest {
     @Test
     public void ItemSave() {
         // given
-        given(itemRepository.save(movie).getId()).willReturn(movie.getId());
-        given(itemRepository.findById(movie.getId()).get()).willReturn((Item)movie);
-        given(itemRepository.save(book).getId()).willReturn(book.getId());
-        given(itemRepository.findById(book.getId()).get()).willReturn(book);
-        given(itemRepository.save(album).getId()).willReturn(album.getId());
-        given(itemRepository.findById(album.getId()).get()).willReturn(album);
+        given(itemRepository.save(movie)).willReturn(movie);
+        given(itemRepository.findById(movie.getId())).willReturn(Optional.of(movie));
+        given(itemRepository.save(book)).willReturn(book);
+        given(itemRepository.findById(book.getId())).willReturn(Optional.of(book));
+        given(itemRepository.save(album)).willReturn(album);
+        given(itemRepository.findById(album.getId())).willReturn(Optional.of(album));
 
         // when
         Long movieItemId = itemService.saveItem(movie);
@@ -107,9 +108,9 @@ public class unitItemServiceTest {
     public void ItemUpdate() {
 
         // given
-        given(itemRepository.findById(movie.getId()).get()).willReturn(movie);
-        given(itemRepository.findById(book.getId()).get()).willReturn(book);
-        given(itemRepository.findById(album.getId()).get()).willReturn(album);
+        given(itemRepository.findById(movie.getId())).willReturn(Optional.of(movie));
+        given(itemRepository.findById(book.getId())).willReturn(Optional.of(book));
+        given(itemRepository.findById(album.getId())).willReturn(Optional.of(album));
         int stockQuantity=30;
         int price1=8000;
         int price2= 45000;
@@ -148,9 +149,9 @@ public class unitItemServiceTest {
         Optional <Item> findBook = itemRepository.findById(bookId);
         Optional <Item> findAlbum = itemRepository.findById(albumId);
         // then
-        assertThat(findMovie.get().getPrice()).isEqualTo(price1);
-        assertThat(findBook.get().getStockQuantity()).isEqualTo(stockQuantity);
-        assertThat(findAlbum.get().getPrice()).isEqualTo(price2);
+        assertThat(findMovie.orElseThrow(NoEntity::new).getPrice()).isEqualTo(price1);
+        assertThat(findBook.orElseThrow(NoEntity::new).getStockQuantity()).isEqualTo(stockQuantity);
+        assertThat(findAlbum.orElseThrow(NoEntity::new).getPrice()).isEqualTo(price2);
     }
 
     @Test
@@ -160,7 +161,6 @@ public class unitItemServiceTest {
         given(itemRepository.findAll()).willReturn(items);
         // when
 
-        Pageable.unpaged();
         List<ItemListResponseDto> findItems = itemService.findItems();
         ItemListResponseDto itemListResponseDto1 = findItems.get(0);
         ItemListResponseDto itemListResponseDto2 = findItems.get(1);
