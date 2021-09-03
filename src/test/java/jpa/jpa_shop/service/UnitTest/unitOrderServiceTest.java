@@ -31,6 +31,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
@@ -100,7 +101,7 @@ public class unitOrderServiceTest {
     public void OrderServiceCreateOrder() {
         // given
         given(memberRepository.findById(member.getId())).willReturn(member);
-        given(itemRepository.findById(item.getId()).get()).willReturn(item);
+        given(itemRepository.findById(item.getId())).willReturn(Optional.of(item));
         given(orderRepository.findById(order.getId())).willReturn(order);
         // when
         orderService.order(member.getId(), item.getId(), 3);
@@ -117,9 +118,9 @@ public class unitOrderServiceTest {
         // given
         OrderSaveRequestDto dto = OrderSaveRequestDto.builder().memberId("1").items(new Long[]{1L, 2L}).count(new int[]{1, 2}).build();
         given(memberRepository.findById(member.getId())).willReturn(member);
-        given(itemRepository.findById(item.getId()).get()).willReturn(item);
-        given(itemRepository.findById(item2.getId()).get()).willReturn(item2);
+        given(itemRepository.findById(item.getId())).willReturn(Optional.of(item));
         given(orderRepository.findById(order2.getId())).willReturn(order2);
+        given(itemRepository.findById(item2.getId())).willReturn(Optional.of(item2));
 
         // when
          orderService.order(dto);

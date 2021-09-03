@@ -79,8 +79,8 @@ public class ItemService implements ItemServiceIFS {
         return new PageResultDTO<>(pageTypeItem, fn);
     }
 
-
-    public List<ItemListResponseDto> findItems() {
+    public List<ItemListResponseDto> findItems()
+    {
         return itemRepository.findAll().stream().map(item -> item.toResponseDTO(item.getClass().getSimpleName().toLowerCase())).collect(Collectors.toList());
     }
 
@@ -91,39 +91,36 @@ public class ItemService implements ItemServiceIFS {
 
     @Override
     public Item findById(Long itemId) {
-        Optional<Item> item = itemRepository.findById(itemId);
-        if (item.isEmpty()) {
-            throw new NotSearchId("존재하지 않는 상품입니다.");
-        }
-        return item.get();
+        return itemRepository.findById(itemId).orElseThrow(NotSearchId::new);
     }
 
     @Transactional
     @Override
     public Long updateItem(Item item) {
-        Optional<Item> entityItem = itemRepository.findById(item.getId());
-        switch (entityItem.get().getClass().getSimpleName().toLowerCase()) {
+        Item requestItem = itemRepository.findById(item.getId()).orElseThrow(NotSearchId::new);
+        switch (requestItem.getClass().getSimpleName().toLowerCase())
+        {
             case "movie":
-                Movie movie = (Movie) entityItem.get();
+                Movie movie = (Movie) requestItem;
                 movie.update(item);
                 break;
             case "book":
-                Book book = (Book) entityItem.get();
+                Book book = (Book) requestItem;
                 book.update(item);
                 break;
             case "album":
-                Album album = (Album) entityItem.get();
+                Album album = (Album) requestItem;
                 album.update(item);
                 break;
         }
-        return entityItem.get().getId();
+        return requestItem.getId();
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
         Optional<Item> deleteItem = itemRepository.findById(id);
-        if (deleteItem.isEmpty()) {
+        if(deleteItem.isEmpty()) {
             throw new NoEntity("No info");
         }
         itemRepository.delete(deleteItem.get());
@@ -131,9 +128,10 @@ public class ItemService implements ItemServiceIFS {
 
     private BooleanBuilder getSearch(PageRequestDTO requestDTO) {
 
-        String name = requestDTO.getName();
-        return new BooleanBuilder().and(nameContain(name));
+        String type = requestDTO.getType();
 
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        return new BooleanBuilder().and(nameContain(requestDTO.getName()));
     }
 
     private BooleanExpression nameContain(String name) {

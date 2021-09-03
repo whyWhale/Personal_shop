@@ -1,0 +1,53 @@
+language: java
+jdk:
+  - openjdk11
+
+branches:
+  only:
+    - master
+
+# CI server Home
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.gradle'
+script: "./gradlew clean build"
+
+before_install:
+  - chmod +x gradlew
+
+before_deploy:
+  - mkdir -p before-deploy
+  - cp scripts/*.sh before-deploy/
+  - cp appspec.yml before-deploy/
+  - cp build/libs/*.jar before-deploy/
+  - cd before-deploy && zip -r before-deploy *
+  - cd ../ && mkdir -p deploy
+  - mv before-deploy/before-deploy.zip deploy/springboot-whywhale2.zip
+
+deploy:
+  - provider: S3
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: springboot-whywhale-build
+    skip_cleanup: true
+    acl: private
+    local_dir: deploy
+    wait-until-deployed: true
+
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: springboot-whywhale-build
+    key: springboot-whywhale2.zip
+    bundle_type: zip
+    application: springboot-whywhale2
+    deployment_group: springboot-whywhale2-group
+    region: ap-northeast-2
+    wait-until-deployed: true
+
+# CI mail 알림
+notifications:
+  email:
+    recipients:
+      - soccer_by@naver.com
