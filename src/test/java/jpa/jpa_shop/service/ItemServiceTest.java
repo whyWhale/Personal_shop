@@ -4,6 +4,7 @@ import jpa.jpa_shop.domain.item.Album;
 import jpa.jpa_shop.domain.item.Book;
 import jpa.jpa_shop.domain.item.Item;
 import jpa.jpa_shop.domain.item.Movie;
+import jpa.jpa_shop.domain.member.Member;
 import jpa.jpa_shop.service.IFS.ItemServiceIFS;
 import jpa.jpa_shop.web.dto.request.PageRequestDTO;
 import jpa.jpa_shop.web.dto.request.PageResultDTO;
@@ -19,8 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import static org.assertj.core.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -92,8 +92,10 @@ public class ItemServiceTest {
         PageRequest of = PageRequest.of(0, 10);
         List<ItemListResponseDto> items = itemService.findItems(of);
         //then
+
         Assertions.assertThat(items).isNotNull();
         Assertions.assertThat(items.size()).isEqualTo(3);
+
     }
 
 
@@ -101,16 +103,20 @@ public class ItemServiceTest {
     public void paging_FindItem() {
         // given
         PageRequestDTO pageRequestDTO = new PageRequestDTO();
-
+        pageRequestDTO.setName("aaa");
+        pageRequestDTO.setType("BOOK");
         // when
-        PageResultDTO<ItemListResponseDto, ? extends Item> pageResultDTO = itemService.findItems(pageRequestDTO);
+        PageResultDTO<ItemListResponseDto, Item> pageResultDTO = (PageResultDTO<ItemListResponseDto, Item>) itemService.findItems(new PageRequestDTO());
+        PageResultDTO<ItemListResponseDto, Item> pageResultDTO2 = (PageResultDTO<ItemListResponseDto, Item>) itemService.findItems(pageRequestDTO);
         // then
-        for (ItemListResponseDto itemListResponseDto : pageResultDTO.getDtoList()) {
-            System.out.println(itemListResponseDto);
+        for (ItemListResponseDto dto : pageResultDTO.getDtoList()) {
+            System.out.println(dto);
         }
+        assertThat(pageResultDTO.getPage() - 1).isEqualTo(0);
+        assertThat(pageResultDTO.getDtoList().size()).isEqualTo(10);
+        assertThat(pageResultDTO2.getPage()-1).isEqualTo(0);
+        assertThat(pageResultDTO2.getDtoList().size()).isEqualTo(0);
     }
-
-   
 
 
 }

@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -79,8 +80,8 @@ public class ItemService implements ItemServiceIFS {
         return new PageResultDTO<>(pageTypeItem, fn);
     }
 
-    public List<ItemListResponseDto> findItems()
-    {
+
+    public List<ItemListResponseDto> findItems() {
         return itemRepository.findAll().stream().map(item -> item.toResponseDTO(item.getClass().getSimpleName().toLowerCase())).collect(Collectors.toList());
     }
 
@@ -120,7 +121,7 @@ public class ItemService implements ItemServiceIFS {
     @Transactional
     public void delete(Long id) {
         Optional<Item> deleteItem = itemRepository.findById(id);
-        if(deleteItem.isEmpty()) {
+        if (deleteItem.isEmpty()) {
             throw new NoEntity("No info");
         }
         itemRepository.delete(deleteItem.get());
@@ -128,10 +129,9 @@ public class ItemService implements ItemServiceIFS {
 
     private BooleanBuilder getSearch(PageRequestDTO requestDTO) {
 
-        String type = requestDTO.getType();
+        String name = requestDTO.getName();
+        return new BooleanBuilder().and(nameContain(name));
 
-        BooleanBuilder booleanBuilder = new BooleanBuilder();
-        return new BooleanBuilder().and(nameContain(requestDTO.getName()));
     }
 
     private BooleanExpression nameContain(String name) {
