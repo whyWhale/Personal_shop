@@ -1,5 +1,6 @@
 package jpa.jpa_shop.domain.orders;
 
+import jpa.jpa_shop.domain.BaseEntity;
 import jpa.jpa_shop.domain.MiddleTable.OrderItem;
 import jpa.jpa_shop.domain.delivery.Delivery;
 import jpa.jpa_shop.domain.delivery.DeliveryStatus;
@@ -20,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "orders")
 @Entity
-public class Order {
+public class Order extends BaseEntity {
     @Id
     @GeneratedValue
     @Column(name = "order_id")

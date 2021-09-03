@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="categoryMenu">
+    <i class="category_icon fas fa-bars" style="font-size: 30px; color: black;"></i>
+    <div class="category_text">카테고리</div>
+</div>
+
+<div>
+    <div class="categories">
+        LEVEL 1
+        <div class="level1">
+            <div th:each="category : ${categories.subCategory}" th:class="'level1_'">
+                <i th:if="${category.name} eq '패션'" class="fas fa-tshirt"></i>
+                <i th:if="${category.name} eq '가전/디지털'" class="fas fa-laptop-house"></i>
+                <i th:if="${category.name} eq '도서'" class="fas fa-book"></i>
+                <i th:if="${category.name} eq '식품'" class="fas fa-hamburger"></i>
+                <span th:text="${category.name}"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

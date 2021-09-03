@@ -61,9 +61,11 @@ public class ItemController {
 
     // list
     @GetMapping("/list")
-    public String list(PageRequestDTO pageRequestDTO, Model model)
+    public String list(@ModelAttribute("requestDto")PageRequestDTO pageRequestDTO, Model model)
     {
         log.info("Paging ItemList {}",pageRequestDTO);
+
+        model.addAttribute("requestDto", pageRequestDTO);
         model.addAttribute("items", itemService.findItems(pageRequestDTO));
         return "item/itemList";
     }
@@ -132,6 +134,7 @@ public class ItemController {
         {
             return "/item/update/updateBook";
         }
+        log.info("update Item -> {}",bookUpdateResponseDto);
         itemService.updateItem(bookUpdateResponseDto.toEntity());
         return "redirect:/item/list";
     }
@@ -142,6 +145,7 @@ public class ItemController {
         {
             return "/item/update/updateMovie";
         }
+        log.info("update Item -> {}",movieUpdateResponseDto);
         itemService.updateItem(movieUpdateResponseDto.toEntity());
         return "redirect:/item/list";
     }

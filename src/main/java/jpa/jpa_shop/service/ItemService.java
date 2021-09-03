@@ -3,7 +3,10 @@ package jpa.jpa_shop.service;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import jpa.jpa_shop.domain.item.*;
+import jpa.jpa_shop.domain.item.Repository.AlbumRepository;
+import jpa.jpa_shop.domain.item.Repository.BookRepository;
 import jpa.jpa_shop.domain.item.Repository.ItemRepository;
+import jpa.jpa_shop.domain.item.Repository.MovieRepository;
 import jpa.jpa_shop.exception.NoEntity;
 import jpa.jpa_shop.exception.NotSearchId;
 import jpa.jpa_shop.service.IFS.ItemServiceIFS;
@@ -16,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Locale;
@@ -28,6 +32,9 @@ import java.util.stream.Collectors;
 @Service
 public class ItemService implements ItemServiceIFS {
     private final ItemRepository itemRepository;
+    private final BookRepository bookRepository;
+    private final AlbumRepository albumRepository;
+    private final MovieRepository movieRepository;
 
     @Transactional
     @Override
@@ -41,19 +48,40 @@ public class ItemService implements ItemServiceIFS {
     }
 
     @Override
-    public PageResultDTO<ItemListResponseDto, Item> findItems(PageRequestDTO requestDTO) {
-        Pageable pageable = requestDTO.getPageable(Sort.by("id").descending());
+    public PageResultDTO<ItemListResponseDto, ? extends Item> findItems(PageRequestDTO requestDTO) {
+        Pageable pageable = requestDTO.getPageable(Sort.by("modifyLDT").descending());
 
+
+        if (requestDTO.getType() != null && !requestDTO.getType().trim().equals("")) {
+            String type = requestDTO.getType();
+            String name = requestDTO.getName();
+            BooleanBuilder booleanBuilder=new BooleanBuilder();
+            switch (type) {
+                case "BOOK":
+                    BooleanBuilder booleanBuilder1 = booleanBuilder.and(QBook.book.name.contains(name));
+                    Page<Book> pageTypeBook = bookRepository.findAll(booleanBuilder1, pageable);
+                    Function<Book, ItemListResponseDto> function1 = (book -> book.toResponseDTO(book.getClass().getSimpleName().toLowerCase()));
+                    return new PageResultDTO<ItemListResponseDto, Book>(pageTypeBook, function1);
+                case "MOVIE":
+                    BooleanBuilder booleanBuilder2 = booleanBuilder.and(QMovie.movie.name.contains(name));
+                    Page<Movie> pageTypeMovie = movieRepository.findAll(booleanBuilder2, pageable);
+                    Function<Movie, ItemListResponseDto> function2 = (movie -> movie.toResponseDTO(movie.getClass().getSimpleName().toLowerCase()));
+                    return new PageResultDTO<ItemListResponseDto, Movie>(pageTypeMovie, function2);
+                case "ALBUM":
+                    BooleanBuilder booleanBuilder3 = booleanBuilder.and(QAlbum.album.name.contains(name));
+                    Page<Album> pageTypeAlbum = albumRepository.findAll(booleanBuilder3, pageable);
+                    Function<Album, ItemListResponseDto> function3 = album -> album.toResponseDTO(album.getClass().getSimpleName().toLowerCase());
+                    return new PageResultDTO<ItemListResponseDto, Album> (pageTypeAlbum, function3);
+            }
+        }
         BooleanBuilder booleanBuilder = getSearch(requestDTO); //검색 조건 처리
-
         Page<Item> pageTypeItem = itemRepository.findAll(booleanBuilder, pageable); //Querydsl 사용
-
         Function<Item, ItemListResponseDto> fn = (item -> item.toResponseDTO(item.getClass().getSimpleName().toLowerCase()));
-        return new PageResultDTO<>(pageTypeItem, fn );
+        return new PageResultDTO<>(pageTypeItem, fn);
     }
 
-    public List<ItemListResponseDto> findItems()
-    {
+
+    public List<ItemListResponseDto> findItems() {
         return itemRepository.findAll().stream().map(item -> item.toResponseDTO(item.getClass().getSimpleName().toLowerCase())).collect(Collectors.toList());
     }
 
@@ -64,72 +92,52 @@ public class ItemService implements ItemServiceIFS {
 
     @Override
     public Item findById(Long itemId) {
-        return itemRepository.findById(itemId).orElseThrow(NoEntity::new);
+        return itemRepository.findById(itemId).orElseThrow(NotSearchId::new);
     }
 
-    @Transactional
+     @Transactional
     @Override
     public Long updateItem(Item item) {
-        Item entityItem = itemRepository.findById(item.getId()).orElseThrow(NoEntity::new);
-        System.out.println(entityItem.getClass().getSimpleName().toLowerCase());
-        switch (entityItem.getClass().getSimpleName().toLowerCase())
+        Item requestItem = itemRepository.findById(item.getId()).orElseThrow(NotSearchId::new);
+        switch (requestItem.getClass().getSimpleName().toLowerCase())
         {
             case "movie":
-                Movie movie = (Movie) entityItem;
+                Movie movie = (Movie) requestItem;
                 movie.update(item);
                 break;
             case "book":
-                Book book = (Book) entityItem;
+                Book book = (Book) requestItem;
                 book.update(item);
                 break;
             case "album":
-                Album album = (Album) entityItem;
+                Album album = (Album) requestItem;
                 album.update(item);
                 break;
         }
-        return entityItem.getId();
+        return requestItem.getId();
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
         Optional<Item> deleteItem = itemRepository.findById(id);
-        if(deleteItem.isEmpty())
-        {
+        if (deleteItem.isEmpty()) {
             throw new NoEntity("No info");
         }
         itemRepository.delete(deleteItem.get());
     }
 
-    private BooleanBuilder getSearch(PageRequestDTO requestDTO){
+    private BooleanBuilder getSearch(PageRequestDTO requestDTO) {
 
-        String type = requestDTO.getType();
+        String name = requestDTO.getName();
+        return new BooleanBuilder().and(nameContain(name));
 
-        BooleanBuilder booleanBuilder = new BooleanBuilder();
+    }
 
-        QItem qItem = QItem.item;
-
-        String keyword = requestDTO.getKeyword();
-
-        BooleanExpression expression = qItem.id.gt(0L); // gno > 0 조건만 생성
-
-        booleanBuilder.and(expression);
-
-        if(type == null || type.trim().length() == 0){ //검색 조건이 없는 경우
-            return booleanBuilder;
+    private BooleanExpression nameContain(String name) {
+        if (name == null ||!StringUtils.hasText(name)) {
+            return null;
         }
-
-
-        //검색 조건을 작성하기
-        BooleanBuilder conditionBuilder = new BooleanBuilder();
-
-        if(type.contains("t")){
-            conditionBuilder.or(qItem.name.contains(keyword));
-        }
-
-        //모든 조건 통합
-        booleanBuilder.and(conditionBuilder);
-
-        return booleanBuilder;
+        return QItem.item.name.contains(name);
     }
 }

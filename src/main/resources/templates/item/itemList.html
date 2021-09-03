@@ -5,44 +5,64 @@
 <div class="container">
     <div th:replace="layout/navbar :: bodyHeader"/>
     <div>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>#</th>
-                <th>상품명</th>
-                <th>가격</th>
-                <th>재고수량</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="item : ${items.dtoList}">
-                <td th:text="${item.id}"></td>
-                <td th:text="${item.name}"></td>
-                <td th:text="${item.price}"></td>
-                <td th:text="${item.stockQuantity}"></td>
-                <td>
-                    <a href="#" th:href="@{/item/{type}/{id} (id=${item.id},type=${item.type})}"
-                       class="btn btn-primary" role="button">수정</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <ul class="pagination h-100 justify-content-center align-items-center">
-            <li class="page-item " th:if="${items.prev}">
-                <a class="page-link" th:href="@{/item/list(page= ${items.start -1})}"
-                   tabindex="-1">Previous</a></li>
-            <li th:class=" 'page-item ' + ${items.page == page?'active':''} " th:each="page: ${items.pageList}"><a
-                    class="page-link" th:href="@{/item/list(page = ${page})}"> [[${page}]] </a></li>
+        <div>
+            <form th:object="${requestDto}" class="form-inline">
+                <div class="form-group mb-2">
+                    <input type="text" th:field="*{name}" class="formcontrol" placeholder="상품명"/>
+                </div>
+                <div class="form-group mx-sm-1 mb-2">
+                    <select th:field="*{type}" class="form-control">
+                        <option value="">특정상품 종류</option>
+                        <option th:each=
+                                        "status : ${T(jpa.jpa_shop.domain.item.ItemDtype).values()}"
+                                th:value="${status}"
+                                th:text="${status}">option
+                        </option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">검색</button>
+            </form>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>상품명</th>
+                    <th>가격</th>
+                    <th>재고수량</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${items.dtoList}">
+                    <td th:text="${item.id}"></td>
+                    <td th:text="${item.name}"></td>
+                    <td th:text="${item.price}"></td>
+                    <td th:text="${item.stockQuantity}"></td>
+                    <td>
+                        <a href="#" th:href="@{/item/{type}/{id} (id=${item.id},type=${item.type})}"
+                           class="btn btn-primary" role="button">수정</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <ul class="pagination h-100 justify-content-center align-items-center">
+                <li class="page-item " th:if="${items.prev}">
+                    <a class="page-link" th:href="@{/item/list(page= ${items.start -1})}"
+                       tabindex="-1">Previous</a></li>
+                <li th:class=" 'page-item ' + ${items.page == page?'active':''} " th:each="page: ${items.pageList}"><a
+                        class="page-link" th:href="@{/item/list(page = ${page})}"> [[${page}]] </a></li>
 
 
-            <li class="page-item" th:if="${items.next}"><a class="page-link"
-                                                           th:href="@{/item/list(page= ${items.end + 1})}">Next</a>
-            </li>
-        </ul>
-
-    </div>
-    <div th:replace="layout/footer :: footer"/>
-</div> <!-- /container -->
+                <li class="page-item" th:if="${items.next}"><a class="page-link"
+                                                               th:href="@{/item/list(page= ${items.end + 1})}">Next</a>
+                </li>
+            </ul>
+            </form>
+        </div>
+        <div th:replace="layout/footer :: footer"/>
+    </div> <!-- /container -->
+</div>
 </body>
+
 </html>
