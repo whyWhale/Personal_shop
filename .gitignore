@@ -38,3 +38,7 @@ out/
 
 ### aws key
 /src/main/resources/application-release.yaml
+
+### temporary Data
+/src/main/java/jpa/jpa_shop/initDB.java
+/src/main/resources/import.sql
