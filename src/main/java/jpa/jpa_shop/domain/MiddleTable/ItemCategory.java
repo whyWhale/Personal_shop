@@ -19,7 +19,6 @@ public class ItemCategory extends BaseEntity {
     @Column(name="item_category_id")
     private Long id;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="item_id")
     private Item item;

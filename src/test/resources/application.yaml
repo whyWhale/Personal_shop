@@ -1,6 +1,6 @@
 spring :
   datasource :
-    url :  jdbc:h2:mem:test;MODE=MYSQL # in memory Test
+    url :  jdbc:h2:mem:test; # in memory Test
     username :  sa
     password :
     driver-class-name : org.h2.Driver
@@ -9,8 +9,6 @@ spring :
     hibernate:
       ddl-auto: create
     properties:
-      hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
-      hibernate.dialect.storage_engin: innodb
 #      show_sql : true
       format_sql : true
 
