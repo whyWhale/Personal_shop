@@ -8,14 +8,15 @@ import java.util.List;
 
 public interface MemberServiceIFS {
 
-    public Long Join(Member member);
+    public void Join(Member member);
 
-    public Long update(Long id, MemberUpdateRequestDto requestDto);
+    public void update(Long id, MemberUpdateRequestDto requestDto);
 
     public List<MemberResponseDto> findAll();
 
     public MemberResponseDto findById(Long MemberId);
 
+    public MemberResponseDto findByUsername(String memberUsername);
 
     public void delete(Long id);
 }

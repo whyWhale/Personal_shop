@@ -3,10 +3,11 @@ package jpa.jpa_shop.service.UnitTest;
 import jpa.jpa_shop.domain.member.Address;
 import jpa.jpa_shop.domain.member.Member;
 import jpa.jpa_shop.domain.member.Repository.MemberRepository;
+import jpa.jpa_shop.exception.NoEntity;
 import jpa.jpa_shop.service.MemberService;
 import jpa.jpa_shop.web.dto.request.member.MemberUpdateRequestDto;
 import jpa.jpa_shop.web.dto.response.member.MemberResponseDto;
-import org.assertj.core.api.Assertions;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,12 +20,14 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 
+@Slf4j
 @RunWith(MockitoJUnitRunner.class)
 @ExtendWith(MockitoExtension.class)
 public class unitMemberServiceTest {
@@ -52,17 +55,18 @@ public class unitMemberServiceTest {
                 address(Address.builder().city("Incheon").street("gugu street").zipcode("12-1").build())
                 .build();
         ReflectionTestUtils.setField(member2,"id",2L);
+
+        log.info("before Test");
     }
 
     @Test
    public void MemberServiceJoin() {
        // given
-       given(memberRepository.save(any())).willReturn(member.getId());
-       given(memberRepository.findById(member.getId())).willReturn(member);
+       given(memberRepository.findById(1L)).willReturn(Optional.of(member));
 
        // when
-       long memberId  = memberService.Join(member);
-       Member findMember = memberRepository.findById(memberId);
+       memberService.Join(member);
+       Member findMember = memberRepository.findById(1L).orElseThrow(NoEntity::new);
 
        // then
         assertThat(findMember.getName()).isEqualTo(member.getName());
@@ -82,12 +86,12 @@ public class unitMemberServiceTest {
        MemberUpdateRequestDto Dto = MemberUpdateRequestDto.builder().name(name).
                city(city).street(street).zipcode(zipcode).build();
 
-       given(memberRepository.findById(member2.getId())).willReturn(member2);
+       given(memberRepository.findById(member2.getId())).willReturn(Optional.of(member2));
 
        // when
 
-       Long updateId = memberService.update(member2.getId(), Dto);
-       Member findMember = memberRepository.findById(updateId);
+       memberService.update(member2.getId(), Dto);
+       Member findMember = memberRepository.findById(2L).orElseThrow(NoEntity::new);
 
        // then
        assertThat(findMember.getAddress().getCity()).isEqualTo(city);
@@ -117,7 +121,7 @@ public class unitMemberServiceTest {
        // given
 
        // when
-        given(memberRepository.findById(member.getId())).willReturn(member);
+        given(memberRepository.findById(1L)).willReturn(Optional.of(member));
         doNothing().when(memberRepository).delete(any(Member.class));
        // then
        memberService.delete(member.getId());

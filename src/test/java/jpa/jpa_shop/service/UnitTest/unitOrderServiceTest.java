@@ -16,25 +16,22 @@ import jpa.jpa_shop.domain.orders.Repository.OrderRepository;
 import jpa.jpa_shop.service.OrderService;
 import jpa.jpa_shop.web.dto.request.order.OrderSaveRequestDto;
 import jpa.jpa_shop.web.dto.request.order.OrderSearchRequestDto;
-import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
-import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.BDDMockito.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
 
 @RunWith(MockitoJUnitRunner.class)
 @ExtendWith(MockitoExtension.class)
@@ -100,7 +97,7 @@ public class unitOrderServiceTest {
     @Test
     public void OrderServiceCreateOrder() {
         // given
-        given(memberRepository.findById(member.getId())).willReturn(member);
+        given(memberRepository.findById(member.getId())).willReturn(Optional.of(member));
         given(itemRepository.findById(item.getId())).willReturn(Optional.of(item));
         given(orderRepository.findById(order.getId())).willReturn(order);
         // when
@@ -117,7 +114,7 @@ public class unitOrderServiceTest {
     public void OrderServiceCreatesOrders() {
         // given
         OrderSaveRequestDto dto = OrderSaveRequestDto.builder().memberId("1").items(new Long[]{1L, 2L}).count(new int[]{1, 2}).build();
-        given(memberRepository.findById(member.getId())).willReturn(member);
+        given(memberRepository.findById(member.getId())).willReturn(Optional.of(member));
         given(itemRepository.findById(item.getId())).willReturn(Optional.of(item));
         given(orderRepository.findById(order2.getId())).willReturn(order2);
         given(itemRepository.findById(item2.getId())).willReturn(Optional.of(item2));

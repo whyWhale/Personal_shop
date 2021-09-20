@@ -62,7 +62,7 @@ bootRun {
 
 test {
 }
-def querydslSrcDir = "src/generated/querydsl"
+def querydslSrcDir = "$buildDir/generated/querydsl"
 
 querydsl {
     library ="com.querydsl:querydsl-apt"

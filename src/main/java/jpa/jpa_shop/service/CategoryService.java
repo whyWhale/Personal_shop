@@ -21,7 +21,6 @@ public class CategoryService {
 
     public CategoryResponseDto createCategoryList() {
         List<Category> categories = categoryRepository.findAll();
-        categories.removeIf(category -> category.getId()<0);
 
         Map<Long,List<CategoryResponseDto>> groupingByParent= categories
                 .stream()

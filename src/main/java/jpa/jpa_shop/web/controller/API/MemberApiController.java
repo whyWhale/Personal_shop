@@ -27,10 +27,10 @@ public class MemberApiController {
     }
 
     @PostMapping("")
-    public Long save(@Valid @RequestBody MemberSaveRequestDto requestDto)
+    public void save(@Valid @RequestBody MemberSaveRequestDto requestDto)
     {
         log.info("{}","create memberName -- >"+requestDto.getName());
-        return memberService.Join(requestDto.toEntity());
+        memberService.Join(requestDto.toEntity());
     }
 
     @PutMapping("/{id}")

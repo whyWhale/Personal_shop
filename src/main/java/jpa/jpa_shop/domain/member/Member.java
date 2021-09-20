@@ -23,15 +23,21 @@ public class Member extends BaseEntity {
     @Column(name = "member_id")
     private Long id;
 
+    private String username;
+
+    private String password;
+
     private String name;
 
     @Embedded
     private Address address;
 
     @Builder
-    public Member(String name, Address address) {
+    public Member(String username, String password, String name, Address address) {
+        this.username = username;
+        this.password = password;
         this.name = name;
-        this.address = address;
+        this.address=address;
     }
 
     @OneToMany(mappedBy = "member")

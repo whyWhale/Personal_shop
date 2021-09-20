@@ -1,40 +1,16 @@
 package jpa.jpa_shop.domain.member.Repository;
 
 import jpa.jpa_shop.domain.member.Member;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.util.List;
+import java.util.Optional;
 
-@Repository
-public class MemberRepository  {
-    @PersistenceContext
-    EntityManager em;
+public interface MemberRepository extends JpaRepository<Member,Long> {
 
-    public Long save(Member member)
-    {
-        em.persist(member);
-        return member.getId();
-    } 
+    Optional<Member> findById(Long id);
 
-    public Member findById(Long id)
-    {
-        return em.find(Member.class,id);
-    }
+    Optional<Member> findByUsername(String username);
 
-    public List<Member> findAll()
-    {
-        return em.createQuery("select m from Member m",Member.class).getResultList();
-    }
-    public List<Member> findByName(String name)
-    {
-        return em.createQuery("select m from Member m where m.name=:name",Member.class)
-                .setParameter("name",name).getResultList();
-    }
-    public void delete(Member member)
-    {
-        em.remove(member);
-    }
-
+    boolean existsByName(String username);
 }
+

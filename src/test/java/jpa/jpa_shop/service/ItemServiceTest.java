@@ -4,7 +4,6 @@ import jpa.jpa_shop.domain.item.Album;
 import jpa.jpa_shop.domain.item.Book;
 import jpa.jpa_shop.domain.item.Item;
 import jpa.jpa_shop.domain.item.Movie;
-import jpa.jpa_shop.domain.member.Member;
 import jpa.jpa_shop.service.IFS.ItemServiceIFS;
 import jpa.jpa_shop.web.dto.request.PageRequestDTO;
 import jpa.jpa_shop.web.dto.request.PageResultDTO;
@@ -20,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -113,7 +112,7 @@ public class ItemServiceTest {
             System.out.println(dto);
         }
         assertThat(pageResultDTO.getPage() - 1).isEqualTo(0);
-        assertThat(pageResultDTO.getDtoList().size()).isEqualTo(10);
+        assertThat(pageResultDTO.getDtoList().size()).isEqualTo(0);
         assertThat(pageResultDTO2.getPage()-1).isEqualTo(0);
         assertThat(pageResultDTO2.getDtoList().size()).isEqualTo(0);
     }
