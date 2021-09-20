@@ -10,7 +10,6 @@ import jpa.jpa_shop.domain.member.Repository.MemberRepository;
 import jpa.jpa_shop.domain.orders.Order;
 import jpa.jpa_shop.domain.orders.Repository.OrderRepository;
 import jpa.jpa_shop.exception.NoEntity;
-import jpa.jpa_shop.exception.NotSearchId;
 import jpa.jpa_shop.service.IFS.OrderServiceIFS;
 import jpa.jpa_shop.web.dto.request.order.OrderSaveRequestDto;
 import jpa.jpa_shop.web.dto.request.order.OrderSearchRequestDto;
@@ -35,7 +34,7 @@ public class OrderService implements OrderServiceIFS {
     @Transactional
     @Override
     public Long order(Long memberId, Long itemId, int count) {
-        Member member = memberRepository.findById(memberId);
+        Member member = memberRepository.findById(memberId).orElseThrow(NoEntity::new);
         Optional<Item> optionalItem = itemRepository.findById(itemId);
         if(optionalItem.isEmpty())
             throw new NoEntity("No Item");
@@ -56,7 +55,7 @@ public class OrderService implements OrderServiceIFS {
     @Override
     @Transactional
     public Long order(OrderSaveRequestDto orderSaveRequestDto) {
-        Member member = memberRepository.findById(Long.parseLong(orderSaveRequestDto.getMemberId()));
+        Member member = memberRepository.findById(Long.parseLong(orderSaveRequestDto.getMemberId())).orElseThrow(NoEntity::new);
         Long[] dtoItems = orderSaveRequestDto.getItems();
         int[] count = orderSaveRequestDto.getCount();
         List<OrderItem> orderItems = new ArrayList<>();

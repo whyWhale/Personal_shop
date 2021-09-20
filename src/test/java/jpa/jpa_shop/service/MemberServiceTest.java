@@ -27,14 +27,17 @@ public class MemberServiceTest {
     @Rollback(value = false)
     public void join() {
             //given
-        Member member = Member.builder().
-                name("KIM").
+        String username="abc1234";
+        Member member = Member.builder()
+                .username(username)
+                .name("KIM").
                 address(Address.builder().city("Seoul").street("soso street").zipcode("59-1").build())
                 .build();
         //when
-        Long memberJoin = memberService.Join(member);
+        memberService.Join(member);
         //then
-        Assertions.assertThat(memberJoin).isEqualTo(member.getId());
+        final MemberResponseDto byUsername = memberService.findByUsername(username);
+        Assertions.assertThat(byUsername.getId()).isEqualTo(member.getId());
     }
     @Test
     public void findAll() {
@@ -56,28 +59,16 @@ public class MemberServiceTest {
         Assertions.assertThat(all.get(1).getId()).isEqualTo(member2.getId());
     }
 
-    @Test
-    public void findById() {
-        Member member = Member.builder().
-                name("LEE").
-                address(Address.builder().city("Seoul").street("gogo street").zipcode("11-1").build())
-                .build();
-        Long id = memberService.Join(member);
-        MemberResponseDto findByIdMember = memberService.findById(id);
-        Assertions.assertThat(id).isEqualTo(findByIdMember.getId());
-    }
-
-
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void validDuplicateMember() throws Exception{
         //given
         Member member = Member.builder().
-                name("PARK").
+                username("PARK").
                 address(Address.builder().city("Seoul").street("soso street").zipcode("59-1").build())
                 .build();
 
         Member member2 = Member.builder().
-                name("PARK").
+                username("PARK").
                 address(Address.builder().city("Seoul").street("gogo street").zipcode("11-1").build())
                 .build();
         //when

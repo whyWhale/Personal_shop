@@ -21,25 +21,23 @@ public class MemberService implements MemberServiceIFS {
 
     @Override
     @Transactional
-    public Long Join(Member member) {
-        validDuplicateMember(member);
-        return memberRepository.save(member);
+    public void Join(Member member) {
+        if(validDuplicateMember(member)){
+            throw new IllegalArgumentException("Duplicated username");
+        }
+        memberRepository.save(member);
     }
 
     @Override
     @Transactional
-    public Long update(Long id, MemberUpdateRequestDto requestDto) {
-        validDuplicateMember(requestDto.toEntity());
-        Member findMember = memberRepository.findById(id);
-        findMember.update(requestDto);
-        return findMember.getId();
+    public void update(Long id, MemberUpdateRequestDto requestDto) {
+        Member member = memberRepository.findById(id).orElseThrow(NoEntity::new);
+        member.update(requestDto);
     }
 
     // private 은 Tranactional 안걸림.
-    private void validDuplicateMember(Member member) {
-        List<Member> members = memberRepository.findByName(member.getName());
-        if (!members.isEmpty())
-            throw new IllegalStateException("이미 존재하는 회원입니다.");
+    private boolean validDuplicateMember(Member member) {
+       return memberRepository.existsByName(member.getName());
     }
 
     @Override
@@ -49,21 +47,19 @@ public class MemberService implements MemberServiceIFS {
 
     @Override
     public MemberResponseDto findById(Long MemberId) {
-        Member byIdMember = memberRepository.findById(MemberId);
-        if (byIdMember == null)
-            throw new NoEntity();
+        Member byIdMember = memberRepository.findById(MemberId).orElseThrow(NoEntity::new);
         return byIdMember.toDto();
+    }
+
+    @Override
+    public MemberResponseDto findByUsername(String memberUsername) {
+        return memberRepository.findByUsername(memberUsername).orElseThrow(NoEntity::new).toDto();
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
-        Member deleteMember = memberRepository.findById(id);
-        if (deleteMember == null) {
-            throw new NoEntity("No info");
-        }
+        Member deleteMember = memberRepository.findById(id).orElseThrow(NoEntity::new);
         memberRepository.delete(deleteMember);
     }
-
-
 }
