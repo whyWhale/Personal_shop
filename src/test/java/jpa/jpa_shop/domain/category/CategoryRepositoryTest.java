@@ -35,7 +35,8 @@ public class CategoryRepositoryTest {
         });
         IntStream.rangeClosed(11,20).forEach(i->{
             Category category = Category.builder().name(String.valueOf(i)).build();
-            Optional<Category> optionalCategory = categoryRepository.findByName( String.valueOf(i-10));
+            int Name = i - 10;
+            Optional<Category> optionalCategory = categoryRepository.findByName( String.valueOf(Name));
             if(!optionalCategory.isEmpty())
             {
                 Category parentCategory = optionalCategory.get();
